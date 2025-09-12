@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Login</title>
   <link rel="stylesheet" href="assets/css/login.css">
+  
 </head>
 <body>
   <div class="login-card">
@@ -12,7 +13,7 @@
     <h2>Student <span>Sign-In</span></h2>
 
     <div class="input-group">
-      <input type="text" placeholder="Username">
+      <input type="text" id="username" placeholder="Username">
     </div>
 
     <div class="input-group">
@@ -20,17 +21,31 @@
       <span class="toggle-password" onclick="togglePassword()">👁</span>
     </div>
 
-    <button class="login-btn">SIGN IN</button>
+    <button class="login-btn" onclick="checkLogin()">SIGN IN</button>
 
     <div class="links">
       <a href="#">Help</a>
       <a href="#">Forgot Password?</a>
     </div>
+  </div>
 
   <script>
     function togglePassword() {
       const passwordInput = document.getElementById('password');
       passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    }
+
+    function checkLogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if(username === 'mayur','sameer' && password === 'password') {
+        // Redirect to dashboard page
+        window.location.href = 'dashfaculty.html';
+    
+      } else {
+        alert('Invalid username or password!');
+      }
     }
   </script>
 </body>
