@@ -1,0 +1,120 @@
+/* General Page Style */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  background: #0d1b2a;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #90e0ef;
+}
+
+/* Dashboard Container */
+.dashboard {
+  padding: 30px;
+}
+
+.dashboard h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #1b263b;
+}
+
+/* Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background: #e9f5ff;
+}
+
+.card i {
+  font-size: 28px;
+  color: #0077b6;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin: 10px 0 5px;
+  color: #1b263b;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+}
+/* Navbar Styling */
+.navbar {
+  background: #0d1b2a;
+  color: white;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+}
+
+.logo-section img {
+  height: 40px;
+  margin-right: 12px;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #90e0ef;
+}
