@@ -1,110 +1,96 @@
-// ====== Import Firebase modules ======
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy } 
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getFirestore, collection, doc, getDocs, setDoc, addDoc, query, where } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-// ====== Firebase Configuration ======
-// 🔑 Replace with your Firebase project settings
+// Your Firebase config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCmr6ohetgRU38w1UPf5WlviPc869MqrKE",
+  authDomain: "aiml-portal.firebaseapp.com",
+  projectId: "aiml-portal",
+  storageBucket: "aiml-portal.firebasestorage.app",
+  messagingSenderId: "976880421269",
+  appId: "1:976880421269:web:33d16bf4147259032b4e9c",
+  measurementId: "G-M8X3YJF1GK"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ====== Tab Switching ======
-const tabs = document.querySelectorAll(".tab-btn");
-const contents = document.querySelectorAll(".tab-content");
+const studentSelect = document.getElementById("studentSelect");
+const attendanceForm = document.getElementById("attendanceForm");
+const recordsTable = document.getElementById("recordsTable");
 
-tabs.forEach(btn => {
-  btn.addEventListener("click", () => {
-    tabs.forEach(b => b.classList.remove("active"));
-    contents.forEach(c => c.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
+// ✅ Load students into dropdown
+async function loadStudents() {
+  const studentsCol = collection(db, "students");
+  const snapshot = await getDocs(studentsCol);
+  studentSelect.innerHTML = '<option value="">Select Student</option>';
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const option = document.createElement("option");
+    option.value = docSnap.id; // use document ID
+    option.textContent = `${data.roll} - ${data.name}`;
+    studentSelect.appendChild(option);
   });
-});
+}
 
-// ====== Attendance Form ======
-const form = document.getElementById("attendanceForm");
-const tableBody = document.getElementById("recordsTable");
+// ✅ Load today's attendance records
+async function loadAttendance() {
+  const today = new Date().toISOString().split("T")[0];
+  const attendanceDoc = doc(db, "attendance", today);
+  const recordsCol = collection(attendanceDoc, "records");
+  const snapshot = await getDocs(recordsCol);
+  
+  recordsTable.innerHTML = "";
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${data.roll}</td>
+      <td>${data.name}</td>
+      <td>${data.status}</td>
+      <td>${today}</td>
+    `;
+    recordsTable.appendChild(row);
+  });
+}
 
-form.addEventListener("submit", async e => {
+// ✅ Submit attendance record
+attendanceForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = document.getElementById("studentName").value;
-  const roll = document.getElementById("rollNo").value;
+  const studentId = studentSelect.value;
   const status = document.getElementById("status").value;
-  const date = new Date().toLocaleDateString();
+
+  if (!studentId) {
+    alert("Please select a student.");
+    return;
+  }
 
   try {
-    await addDoc(collection(db, "attendance"), {
-      rollNo: roll,
-      name: name,
-      status: status,
-      date: date
+    const studentDoc = doc(db, "students", studentId);
+    const studentSnap = await getDocs(query(collection(db, "students"), where("__name__", "==", studentId)));
+    const studentData = (await studentSnap.docs[0].data());
+
+    const today = new Date().toISOString().split("T")[0];
+    const attendanceDoc = doc(db, "attendance", today);
+    const recordDoc = doc(attendanceDoc, "records", studentId);
+
+    await setDoc(recordDoc, {
+      roll: studentData.roll,
+      name: studentData.name,
+      status: status
     });
-    console.log("✅ Attendance saved to Firestore!");
-    form.reset();
-    fetchRecords();
-  } catch (err) {
-    console.error("❌ Error saving:", err);
-    alert("Failed to save attendance, check console.");
+
+    alert("Attendance saved!");
+    loadAttendance();
+  } catch (error) {
+    console.error("Error saving attendance:", error);
+    alert("Failed to save attendance.");
   }
 });
 
-// ====== Fetch Records ======
-async function fetchRecords() {
-  tableBody.innerHTML = "";
-  try {
-    const q = query(collection(db, "attendance"), orderBy("date", "desc"));
-    const snapshot = await getDocs(q);
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const row = `<tr>
-        <td>${data.rollNo}</td>
-        <td>${data.name}</td>
-        <td>${data.status}</td>
-        <td>${data.date}</td>
-      </tr>`;
-      tableBody.innerHTML += row;
-    });
-    updateAttendanceStats(snapshot);
-  } catch (err) {
-    console.error("❌ Error fetching:", err);
-  }
-}
-
-// ====== Update Average Attendance ======
-function updateAttendanceStats(snapshot) {
-  let total = 0, present = 0;
-  snapshot.forEach(doc => {
-    total++;
-    if (doc.data().status === "Present") present++;
-  });
-  const avg = total > 0 ? ((present / total) * 100).toFixed(1) : 0;
-  document.getElementById("avgAttendance").textContent = avg + "%";
-}
-
-// ====== Academic Chart ======
-const ctx = document.getElementById("marksChart").getContext("2d");
-new Chart(ctx, {
-  type: "bar",
-  data: {
-    labels: ["Math", "Science", "English", "AI", "ML"],
-    datasets: [{
-      label: "Marks",
-      data: [78, 85, 69, 90, 80],
-      backgroundColor: "#3b82f6"
-    }]
-  },
-  options: { responsive: true }
+// ✅ Initialize everything on page load
+window.addEventListener("load", () => {
+  loadStudents();
+  loadAttendance();
 });
-
-// ====== Load Data On Page Start ======
-window.onload = fetchRecords;

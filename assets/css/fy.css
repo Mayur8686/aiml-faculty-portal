@@ -1,145 +1,145 @@
-* {
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
-body {
-  background: #f7f9fc;
+  background: #f4f4f4;
   color: #333;
 }
 
 header {
-  background: #1e3a8a;
+  background: #007bff;
   color: white;
-  padding: 1rem;
+  padding: 20px;
   text-align: center;
 }
 
-header h1 {
-  margin-bottom: 0.5rem;
-}
-
 nav {
-  margin-top: 0.5rem;
+  margin-top: 10px;
 }
 
-.tab-btn {
-  background: #3b82f6;
-  color: white;
+nav .tab-btn {
+  background: white;
   border: none;
-  padding: 0.6rem 1.2rem;
-  margin: 0 5px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  margin: 5px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background 0.3s;
 }
 
-.tab-btn:hover,
-.tab-btn.active {
-  background: #2563eb;
+nav .tab-btn.active {
+  background: #0056b3;
+  color: white;
+}
+
+nav .tab-btn:hover {
+  background: #0069d9;
+  color: white;
 }
 
 main {
-  padding: 2rem;
+  padding: 20px;
 }
 
 .tab-content {
   display: none;
-  animation: fadeIn 0.5s ease-in-out;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
 }
 
 .tab-content.active {
   display: block;
 }
 
-form {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* Attendance Form */
+#attendanceForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-form label {
-  display: block;
-  margin-top: 0.6rem;
+#attendanceForm label {
+  font-weight: bold;
 }
 
-form input,
-form select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.3rem;
+#attendanceForm input,
+#attendanceForm select,
+#attendanceForm button {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 6px;
 }
 
-form button {
-  margin-top: 1rem;
-  background: #1d4ed8;
+#attendanceForm button {
+  background: #007bff;
   color: white;
-  padding: 0.6rem;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
 }
 
-form button:hover {
-  background: #1e40af;
+#attendanceForm button:hover {
+  background: #0056b3;
 }
 
-table {
+/* Attendance Records Table */
+#attendanceRecords {
+  margin-top: 30px;
+}
+
+#attendanceRecords table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
-table th,
-table td {
+#attendanceRecords th,
+#attendanceRecords td {
   border: 1px solid #ddd;
-  padding: 0.6rem;
-  text-align: center;
+  padding: 10px;
+  text-align: left;
 }
 
-table th {
-  background: #e5e7eb;
+#attendanceRecords th {
+  background: #007bff;
+  color: white;
 }
 
-.features {
-  display: flex;
-  gap: 1rem;
+/* Academic Analysis */
+.analysis ul {
+  list-style-type: none;
+  padding: 0;
 }
 
+.analysis li {
+  margin-bottom: 10px;
+}
+
+/* Faculty Features */
 .features button {
-  flex: 1;
-  padding: 1rem;
-  background: #9333ea;
+  background: #28a745;
   color: white;
   border: none;
-  border-radius: 8px;
+  padding: 15px 20px;
+  margin: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s;
+  font-size: 1rem;
 }
 
 .features button:hover {
-  background: #7e22ce;
+  background: #218838;
 }
 
+/* Footer */
 footer {
-  text-align: center;
-  padding: 1rem;
-  background: #1e3a8a;
+  background: #333;
   color: white;
-  margin-top: 2rem;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  text-align: center;
+  padding: 15px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }

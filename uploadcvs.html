@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSV Upload to Firebase Firestore</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h2>Upload CSV to Firestore</h2>
+  <input type="file" id="csvFile" />
+  <button id="uploadCsvBtn">Upload CSV</button>
+
+  <script type="module">
+    // ✅ Import Firebase libraries
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // 🔑 Your Firebase config – replace this with your actual config
+    const firebaseConfig = {
+  apiKey: "AIzaSyCmr6ohetgRU38w1UPf5WlviPc869MqrKE",
+  authDomain: "aiml-portal.firebaseapp.com",
+  projectId: "aiml-portal",
+  storageBucket: "aiml-portal.firebasestorage.app",
+  messagingSenderId: "976880421269",
+  appId: "1:976880421269:web:33d16bf4147259032b4e9c",
+  measurementId: "G-M8X3YJF1GK"
+};
+
+    // ✅ Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const studentsCol = collection(db, "students DIV A");
+
+    // ✅ DOM Elements
+    const csvFileInput = document.getElementById("csvFile");
+    const uploadCsvBtn = document.getElementById("uploadCsvBtn");
+
+    uploadCsvBtn.addEventListener("click", () => {
+      const file = csvFileInput.files[0];
+      if (!file) {
+        alert("Please select a CSV file first.");
+        return;
+      }
+
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: h => h.trim(),
+        complete: async (results) => {
+          const rows = results.data;
+          console.log("Parsed headers:", results.meta.fields);
+
+          let success = 0;
+          let failed = 0;
+
+          for (const row of rows) {
+            try {
+              // ✅ Adjust field names according to your CSV
+              const roll = row["Roll No."]?.trim();
+              const prn = row["PRN No."]?.trim();
+              const name = row["Name of the Student"]?.trim();
+              const division = row["Division"]?.trim()?.toUpperCase() || "A";
+
+              if (!roll || !prn || !name) {
+                console.warn("Skipping incomplete row:", row);
+                failed++;
+                continue;
+              }
+
+              await addDoc(studentsCol, { roll, prn, name, division });
+              console.log("Added:", roll, prn, name);
+              success++;
+            } catch (err) {
+              console.error("Error adding row:", row, err);
+              failed++;
+            }
+          }
+
+          alert(`CSV Upload complete!\n✅ Success: ${success}\n❌ Failed: ${failed}`);
+        },
+        error: (error) => {
+          console.error("Parsing error:", error);
+          alert("There was an error parsing the CSV file.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
