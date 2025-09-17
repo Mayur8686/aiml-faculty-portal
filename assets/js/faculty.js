@@ -7,7 +7,7 @@ const facultyData = [
     description: "Dr. Swati Deshmukh has 15+ years of teaching and research experience in AI & ML.",
     image: "https://github.com/VishalMache/Website_ai-ml/blob/main/AI&ML%20Faculty%5B1%5D/AI&ML%20Faculty/Swati%20Shirke.png?raw=true",
     linkedin: "https://linkedin.com/",
-    website: "https://college.edu/"
+    website: "#"
   },
   {
     name: "Dr. Rahul Sonkamble",
@@ -34,7 +34,7 @@ const facultyData = [
         image: "https://github.com/VishalMache/Website_ai-ml/blob/main/AI&ML%20Faculty%5B1%5D/AI&ML%20Faculty/Rupali%20Zambre.png?raw=true",
         description: "My name is Ms. Rupali Samarth Zambre. I have 16+ years academic years of academic experience in academics and professional practice. My research domain is Data Science and Machine Learning, where I focus on exploring innovative approaches and practical applications. I am passionate about contributing to knowledge, fostering learning, and advancing technology. Thank you for your attention.",
         linkedin: "https://www.linkedin.com/in/rupali-zambre-66b4507a/",
-        website: "https://rupalizambre.wordpress.com/",
+        website: "#",
         scholar: "https://scholar.google.com/citations?hl=en&user=OeOxD6QAAAAJ&view_op=list_works&gmla=AH8HC4w6V2NIlvyf4yij2lg9zJDQHOCg2A95Ha-GVwga8nXmaCoas2Ntz8sdC3xVEbxhk3RE6xTSQzqFeC_RYaG7Lq6lcmNdll9rZFtI6slQ90Uo64zypCJ4VBoMKE1K1taUft8o"
     },
     {
@@ -54,7 +54,7 @@ const facultyData = [
         image: "https://github.com/VishalMache/Website_ai-ml/blob/main/AI&ML%20Faculty%5B1%5D/AI&ML%20Faculty/Vaibhavi%20Avachat.jpg?raw=true",
         description: "My name is Vaibhavi Umesh Avachat. I have 2.8+ years of experience in academics and professional practice. My research domain is Machine Learning, Programming Languages, where I focus on exploring innovative approaches and practical applications. I am passionate about contributing to knowledge, fostering learning, and advancing technology. Thank you for your attention.",
         linkedin: "https://www.linkedin.com/in/vaibhavi-avachat-b56a4612a/",
-        website: "https://sites.google.com/pcu.edu.in/prof-vaibhavi-avachat/bio",
+        website: "#",
         scholar: "https://scholar.google.com/citations?view_op=list_works&hl=en&user=dVctVBcAAAAJ"
     },
     {
@@ -64,7 +64,7 @@ const facultyData = [
         image: "https://github.com/VishalMache/Website_ai-ml/blob/main/AI&ML%20Faculty%5B1%5D/AI&ML%20Faculty/Ashwini%20Biradar.jpg?raw=true",
         description: "My name is Ashwini Biradar. I have 4 years of Academic Experience& 1.5 years of Industrial  Experience years of experience. My research domain is Data Mining, Computer Network, and ETL Testing, where I focus on exploring innovative approaches and practical applications. I am passionate about contributing to knowledge, fostering learning, and advancing technology. Thank you for your attention.",
         linkedin: "#",
-        website: "https://sites.google.com/pcu.edu.in/ashwini-biradar/contact",
+        website: "#",
         scholar: "#"
     },
     {
@@ -76,6 +76,16 @@ const facultyData = [
         linkedin: "#",
         website: "#",
         scholar: "#"
+    }
+    ,
+    {
+        name: "Moreshwar A. Mahale",
+        role: "Assistant Professor",
+        school: "CSE - AI & ML",
+        image: "https://github.com/VishalMache/Website_ai-ml/blob/main/AI&ML%20Faculty%5B1%5D/AI&ML%20Faculty/Moreshwar%20Mahale.jpg?raw=true",
+        description: "My name is Moreshwar A. Mahale. I am a Fresher in academics and professional practice. My research domain is Image Processing, Machine Learning, and Precision Farming, where I focus on exploring innovative approaches and practical applications. I am passionate about contributing to knowledge, fostering learning, and advancing technology. Thank you for your attention.",
+        linkedin: "#",
+        website: "#"
     },
     {
         name: "Tanuja Pande",
@@ -84,17 +94,8 @@ const facultyData = [
         image: "https://raw.githubusercontent.com/VishalMache/Website_ai-ml/refs/heads/main/AI%26ML%20Faculty%5B1%5D/AI%26ML%20Faculty/Tanuja%20Lanjewar.webp",
         description: "My name is Tanuja Lanjewar. I have 2+ years of experience in academics and professional practice. My research domain is Machine learning, Ai, where I focus on exploring innovative approaches and practical applications. I am passionate about contributing to knowledge, fostering learning, and advancing technology. Thank you for your attention.",
         linkedin: "https://www.linkedin.com/in/tanuja-lanjewar-b4228b200/",
-        website: "https://sites.google.com/pcu.edu.in/tanuja-pande/bio",
+        website: "#",
         scholar: "https://scholar.google.com/citations?user=kiranjoshi"
-    },
-    {
-        name: "Moreshwar A. Mahale",
-        role: "Assistant Professor",
-        school: "CSE - AI & ML",
-        image: "https://github.com/VishalMache/Website_ai-ml/blob/main/AI&ML%20Faculty%5B1%5D/AI&ML%20Faculty/Moreshwar%20Mahale.jpg?raw=true",
-        description: "My name is Moreshwar A. Mahale. I am a Fresher in academics and professional practice. My research domain is Image Processing, Machine Learning, and Precision Farming, where I focus on exploring innovative approaches and practical applications. I am passionate about contributing to knowledge, fostering learning, and advancing technology. Thank you for your attention.",
-        linkedin: "https://www.linkedin.com/in/moreshwar-mahale-34b50321b/",
-        website: "#"
     }
     
 

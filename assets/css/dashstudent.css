@@ -118,3 +118,20 @@ body {
 .menu a:hover {
   color: #90e0ef;
 }
+.menu a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 15px;
+  transition: background 0.3s;
+}
+
+.menu a:hover {
+  background: #1e3a8a; /* Darker blue on hover */
+  border-radius: 5px;
+}
+
+.menu a.active {
+  background: #2563eb; /* Bright blue highlight */
+  border-radius: 5px;
+  font-weight: bold;
+}

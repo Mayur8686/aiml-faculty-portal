@@ -15,14 +15,15 @@
       <img src="https://th.bing.com/th/id/OIP.Y--lq46X4cVb7nFob31SaQHaDl?r=0&o=7&pid=ImgDetMain" alt="College Logo">
       <h1>Student Dashboard</h1>
     </div>
-    <div class="menu">
-      <a href="#">Home</a>
-      <a href="#">Notices</a>
-      <a href="#">Attendance</a>
-      <a href="#">Exams</a>
-      <a href="#">Projects</a>
-      <a href="#">Logout</a>
-    </div>
+   <div class="menu">
+  <a href="faculty.html" class="active">Home</a>
+  <a href="notices.html">Notices</a>
+  <a href="attendance.html">Attendance</a>
+  <a href="exams.html">Exams</a>
+  <a href="submit_projects.html">Projects</a>
+  <a href="index.html">Logout</a>
+</div>
+
   </div>
 
   <!-- Dashboard Content -->
@@ -60,11 +61,14 @@
         <p>View schedules and results.</p>
       </div>
 
-      <div class="card">
-        <i class="fas fa-chart-line"></i>
-        <h3>Attendance</h3>
-        <p>Track your attendance records.</p>
-      </div>
+<div class="card">
+  <a href="attendance.html" style="text-decoration: none; color: inherit; display: block;">
+    <i class="fas fa-chart-line"></i>
+    <h3>Attendance</h3>
+    <p>Track your attendance records.</p>
+  </a>
+</div>
+
 
       <div class="card">
         <i class="fas fa-lightbulb"></i>
@@ -91,6 +95,20 @@
       </div>
     </div>
   </div>
+  <script>
+  // Get current file name from URL
+  const currentPage = window.location.pathname.split("/").pop();
+
+  // Find all nav links
+  const navLinks = document.querySelectorAll(".menu a");
+
+  navLinks.forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active");
+    }
+  });
+</script>
+
 
 </body>
 </html>
