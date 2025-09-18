@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="assets/css/dashstudent.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo-section">
+      <img src="https://th.bing.com/th/id/OIP.Y--lq46X4cVb7nFob31SaQHaDl?r=0&o=7&pid=ImgDetMain" alt="College Logo">
+      <h1>Student Dashboard</h1>
+    </div>
+   <div class="menu">
+  <a href="faculty.html" class="active">Home</a>
+  <a href="notices.html">Notices</a>
+  <a href="attendance.html">Attendance</a>
+  <a href="exams.html">Exams</a>
+  <a href="submit_projects.html">Projects</a>
+  <a href="index.html">Logout</a>
+</div>
+
+  </div>
+
+  <!-- Dashboard Content -->
+  <div class="dashboard">
+    <h2>Welcome, Student 👋</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-robot"></i>
+        <h3>Ask Chatbot</h3>
+        <p>Get instant answers to your queries.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-bell"></i>
+        <h3>Notices</h3>
+        <p>Stay updated with announcements.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-book"></i>
+        <h3>Notes</h3>
+        <p>Access class notes and resources.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-upload"></i>
+        <h3>Submit Projects</h3>
+        <p>Upload assignments and projects.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-check-square"></i>
+        <h3>Examinations</h3>
+        <p>View schedules and results.</p>
+      </div>
+
+<div class="card">
+  <a href="attendance.html" style="text-decoration: none; color: inherit; display: block;">
+    <i class="fas fa-chart-line"></i>
+    <h3>Attendance</h3>
+    <p>Track your attendance records.</p>
+  </a>
+</div>
+
+
+      <div class="card">
+        <i class="fas fa-lightbulb"></i>
+        <h3>Recommendations</h3>
+        <p>Personalized learning suggestions.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-calendar-alt"></i>
+        <h3>Events</h3>
+        <p>Upcoming college events.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-briefcase"></i>
+        <h3>Placements</h3>
+        <p>Latest job and internship updates.</p>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-university"></i>
+        <h3>Library</h3>
+        <p>Access e-books and research papers.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+  // Get current file name from URL
+  const currentPage = window.location.pathname.split("/").pop();
+
+  // Find all nav links
+  const navLinks = document.querySelectorAll(".menu a");
+
+  navLinks.forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active");
+    }
+  });
+</script>
+
+
+</body>
+</html>

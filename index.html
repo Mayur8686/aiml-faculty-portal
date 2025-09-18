@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIML Department</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Top bar -->
+  <div class="bg-dark text-white py-1 small">
+    <div class="container d-flex justify-content-between">
+      <span>Email: aiml@college.edu | Phone: +91-9999999999</span>
+      <span>
+        <a href="#" class="text-white me-2">Facebook</a>
+        <a href="#" class="text-white me-2">Twitter</a>
+      </span>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="bg-light shadow-sm">
+    <div class="container d-flex align-items-center justify-content-between py-2">
+      <div class="d-flex align-items-center">
+          <img src="https://github.com/VishalMache/Website_ai-ml/blob/main/Pcu%20Thumbnail%5B1%5D%20(1)/Pcu%20Thumbnail/PCU_logo_152d67d738.png?raw=true" 
+           alt="PCU Logo" style="height:50px;">
+        <h4 class="mb-0">AIML Department</h4>
+      </div>
+      <nav>
+        <ul class="nav">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="faculty.html" class="nav-link">Faculty</a></li>
+          <li class="nav-item"><a href="studentlogin.html" class="nav-link">Students Center</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Slider -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="assets/img/hero1.png" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Welcome to PCU</h5>
+          <p>Innovating with AI & Machine Learning</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="assets/img/hero2.png" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5></h5>
+          <p>Projects, Workshops, Hackathons</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- Notices Ticker -->
+  <div class="bg-warning py-2">
+    <marquee behavior="scroll" direction="left" id="notices-marquee">Loading latest notices...</marquee>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="container my-5">
+    <h3 class="mb-4">Recent Projects</h3>
+    <div class="row" id="projects-section"></div>
+  </div>
+
+  <!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container">
+    <div class="row text-center text-md-start">
+      
+      <!-- Contact Info -->
+      <div class="col-md-6 mb-3">
+        <h5>Contact</h5>
+        <p class="mb-1">PCET’s Pimpri Chinchwad University</p>
+        <p class="mb-1">Established under Govt. of Maharashtra Act No. V of 2024</p>
+        
+        <!-- Phone with icon -->
+        <p class="mb-1">
+          <i class="bi bi-telephone-fill me-2"></i>
+          <a href="tel:+919046909003" class="text-white text-decoration-none">+91-9046909003</a> /
+          <a href="tel:+918381814141" class="text-white text-decoration-none">+91-8381814141</a>
+        </p>
+        
+        <!-- Email with icon -->
+        <p class="mb-1">
+          <i class="bi bi-envelope-fill me-2"></i>
+          <a href="mailto:info@pcu.edu.in" class="text-white text-decoration-none">info@pcu.edu.in</a>
+        </p>
+      </div>
+
+      <!-- Address -->
+      <div class="col-md-6 mb-3">
+        <h5>Address</h5>
+        <p class="mb-1">
+          <i class="bi bi-geo-alt-fill me-2"></i>
+          <a href="https://www.google.com/maps?q=PCET+Pimpri+Chinchwad+University+Pune" 
+             target="_blank" 
+             class="text-white text-decoration-none">
+            Gut No. 44, 46, 48, 49 and 50,<br>
+            Sate, Maval (PMRDA),<br>
+            Dist. Pune-412106,<br>
+            Maharashtra, India
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom line -->
+    <div class="text-center pt-3 border-top border-secondary">
+      <small>&copy; 2025 PCU AIML Department. All Rights Reserved.</small>
+    </div>
+  </div>
+</footer>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

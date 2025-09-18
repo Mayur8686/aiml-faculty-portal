@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login</title>
+  <link rel="stylesheet" href="assets/css/studentlogin.css">
+</head>
+<body>
+  <div class="login-card">
+    <img src="https://th.bing.com/th/id/OIP.Y--lq46X4cVb7nFob31SaQHaDl?pid=ImgDetMain" alt="College Logo">
+    <h2>Student <span>Sign-In</span></h2>
+
+    <div class="input-group">
+      <input type="text" id="username" placeholder="Username">
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password">
+      <span class="toggle-password" onclick="togglePassword()">👁</span>
+    </div>
+
+    <button class="login-btn" onclick="login()">SIGN IN</button>
+
+    <div class="links">
+      <a href="#">Help</a>
+      <a href="#">Forgot Password?</a>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    }
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Example hardcoded login (you can change this)
+      const validUsername = "student";
+      const validPassword = "1234";
+
+      if (username === validUsername && password === validPassword) {
+        // Redirect to dashboard
+        window.location.href = "dashstudent.html";
+      } else {
+        alert("❌ Invalid Username or Password");
+      }
+    }
+  </script>
+</body>
+</html>

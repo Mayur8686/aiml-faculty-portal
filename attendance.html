@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Attendance</title>
+  <!-- Common Navbar Styles -->
+  <link rel="stylesheet" href="assets/css/attendancenav.css">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #e3f2fd);
+      color: #333;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #111; /* black navbar color match */
+    }
+
+    /* Attendance Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #2563eb;
+    }
+
+    .progress-bar {
+      background: #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 12px;
+      margin-top: 10px;
+    }
+
+    .progress {
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    .attendance-info {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo-section">
+      <img src="https://th.bing.com/th/id/OIP.Y--lq46X4cVb7nFob31SaQHaDl?r=0&o=7&pid=ImgDetMain" alt="College Logo">
+      <h1>Student Dashboard</h1>
+    </div>
+    <div class="menu">
+      <a href="student.html">Home</a>
+      <a href="notices.html">Notices</a>
+      <a href="attendance.html" class="active">Attendance</a>
+      <a href="exams.html">Exams</a>
+      <a href="submit_projects.html">Projects</a>
+      <a href="index.html">Logout</a>
+    </div>
+  </div>
+
+  <!-- Attendance Dashboard -->
+  <div class="container">
+    <h2>Your Attendance 📊</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><i class="fas fa-microchip"></i> Digital Logic & Microprocessor</h3>
+        <div class="progress-bar"><div class="progress" style="width: 85%; background:#16a34a;"></div></div>
+        <p class="attendance-info">85% Present (34/40 classes)</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-code"></i> Data Structures & Algorithms</h3>
+        <div class="progress-bar"><div class="progress" style="width: 78%; background:#facc15;"></div></div>
+        <p class="attendance-info">78% Present (31/40 classes)</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-shapes"></i> Discrete Structures</h3>
+        <div class="progress-bar"><div class="progress" style="width: 90%; background:#16a34a;"></div></div>
+        <p class="attendance-info">90% Present (36/40 classes)</p>
+      </div>
+      <div class="card">
+        <h3><i class="fab fa-python"></i> Python Programming</h3>
+        <div class="progress-bar"><div class="progress" style="width: 82%; background:#16a34a;"></div></div>
+        <p class="attendance-info">82% Present (33/40 classes)</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-microchip"></i> COA</h3>
+        <div class="progress-bar"><div class="progress" style="width: 75%; background:#facc15;"></div></div>
+        <p class="attendance-info">75% Present (30/40 classes)</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-network-wired"></i> COI</h3>
+        <div class="progress-bar"><div class="progress" style="width: 68%; background:#dc2626;"></div></div>
+        <p class="attendance-info">68% Present (27/40 classes)</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-language"></i> Foreign Language</h3>
+        <div class="progress-bar"><div class="progress" style="width: 88%; background:#16a34a;"></div></div>
+        <p class="attendance-info">88% Present (35/40 classes)</p>
+      </div>
+    </div>
+  </div>
+    <script>
+  // Get current file name from URL
+  const currentPage = window.location.pathname.split("/").pop();
+
+  // Find all nav links
+  const navLinks = document.querySelectorAll(".menu a");
+
+  navLinks.forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active");
+    }
+  });
+</script>
+
+</body>
+</html>

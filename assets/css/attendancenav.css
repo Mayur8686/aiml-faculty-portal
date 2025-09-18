@@ -1,0 +1,37 @@
+/* navbar.css */
+.navbar {
+  background-color: #111;   /* black navbar */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-section img {
+  height: 40px;
+}
+
+.logo-section h1 {
+  font-size: 20px;
+  color: white;
+  margin: 0;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.menu a:hover,
+.menu a.active {
+  color: #f39c12;
+}

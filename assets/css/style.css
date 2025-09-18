@@ -1,0 +1,87 @@
+/* ====== General Reset ====== */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== Navbar Logo Alignment ====== */
+header .container {
+  display: flex;
+  align-items: center;   /* Vertically center */
+  justify-content: space-between; /* Space between logo+title and nav */
+ 
+}
+
+header img {
+  height: 50px;
+  margin-right: 1px;
+ 
+}
+
+header h1, 
+header h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1; /* Keeps heading aligned with logo */
+  display: flex;
+  align-items: center;
+}
+
+/* ====== Navbar Links ====== */
+header nav .nav-link {
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+header nav .nav-link:hover {
+  color: #0d6efd; /* Bootstrap primary color */
+}
+
+/* ====== Hero Section ====== */
+.carousel-caption h5 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.carousel-caption p {
+  font-size: 1.2rem;
+}
+
+/* ====== Notices Ticker (Marquee Alternative) ====== */
+.scroll-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 12s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ====== Projects Section ====== */
+#projects-section .card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#projects-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Footer ====== */
+footer h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+footer a:hover {
+  color: #0d6efd;
+}
