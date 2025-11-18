@@ -1,77 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Faculty Dashboard | FY</title>
   <link rel="stylesheet" href="assets/css/fy.css" />
+  <style>
+    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{margin:0;background:#f7fafc;color:#0f172a;line-height:1.4}
+    header{background:#0b5cff;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+    header h1{margin:0;font-size:18px}
+    nav{display:flex;gap:8px}
+    .tab-btn{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer}
+    .tab-btn.active{background:#fff;color:#0b5cff}
+    main{max-width:980px;margin:18px auto;padding:0 16px}
+    section{display:none;background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-bottom:16px}
+    section.active{display:block}
+    form > div{margin-bottom:12px}
+    label{font-weight:600}
+    #studentList{max-height:320px;overflow:auto;padding:8px;border:1px dashed #e6eef9;border-radius:6px;background:#fbfdff}
+    .controls { display:flex; gap:12px; align-items:center; margin-bottom:8px; }
+    .btn { background:#0b5cff;color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer }
+    button[type="submit"]{background:#0b5cff;color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th,td{padding:8px;border-bottom:1px solid #eef2f7;text-align:left}
+    footer{max-width:980px;margin:8px auto;padding:10px 16px;color:#6b7280;font-size:13px}
+    .small{font-size:13px;color:#374151}
+  </style>
 </head>
 <body>
   <header>
     <h1>Faculty Dashboard - FY</h1>
     <nav>
       <button class="tab-btn active" data-tab="divA">Attendance</button>
-      <button class="tab-btn" data-tab="divB">Academic Analysis</button>
+      <a href="academic_analysis.html" class="tab-btn" style="text-decoration:none;">
+  Academic Analysis
+  </a>
+
       <button class="tab-btn" data-tab="divC">Faculty Features</button>
     </nav>
   </header>
 
   <main>
-    <!-- Div A: Attendance -->
-    <section id="divA" class="tab-content active">
-      <h2>📋 Attendance Submission</h2>
-      <form id="attendanceForm">
-        <label for="studentSelect">Select Student:</label>
-        <select id="studentSelect">
-          <option value="">Loading students...</option>
-        </select>
+    <section id="divA" class="tab-content active" aria-labelledby="attendanceHeading">
+      <h2 id="attendanceHeading">📋 Attendance Submission</h2>
 
-        <label for="status">Status:</label>
-        <select id="status">
-          <option value="Present">Present</option>
-          <option value="Absent">Absent</option>
-        </select>
+      <!-- ⭐ MANUAL DATE SELECTOR ADDED HERE -->
+      <div style="margin-bottom:10px;">
+        <label for="attendanceDate">Select Attendance Date:</label><br>
+        <input id="attendanceDate" type="date" style="padding:6px;margin-top:4px;">
+        <small class="small">If empty, today's date will be used automatically.</small>
+      </div>
 
-        <button type="submit">Submit Attendance</button>
+      <form id="attendanceForm" aria-describedby="attendanceHelp">
+        <div>
+          <label for="status">Status for selected students:</label><br />
+          <select id="status" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+          </select>
+        </div>
+
+        <fieldset id="studentsFieldset">
+          <legend>Students (select one or many)</legend>
+
+          <div class="controls">
+            <div>
+              <input type="checkbox" id="selectAllCheckbox" />
+              <label for="selectAllCheckbox" style="margin-left:8px;font-weight:600">Select all / Clear all</label>
+            </div>
+            <div>
+              <button type="button" id="selectAllBtn" class="btn">Select all</button>
+              <button type="button" id="clearAllBtn" class="btn" style="background:#6b7280">Clear all</button>
+            </div>
+          </div>
+
+          <div id="studentList" aria-live="polite" class="small">
+            <p>Loading students…</p>
+          </div>
+        </fieldset>
+
+        <div style="margin-top:12px">
+          <button type="submit" id="submitAttendanceBtn">Submit Attendance</button>
+          <span id="attendanceHelp" class="small" style="margin-left:12px">Saved to Firestore.</span>
+        </div>
       </form>
 
-      <div id="attendanceRecords">
+      <div id="attendanceRecords" style="margin-top:18px">
         <h3>Today's Attendance Records</h3>
-        <table>
+        <table aria-label="Today's attendance">
           <thead>
             <tr>
+              <th>Sr No</th>
               <th>Roll No</th>
               <th>Name</th>
               <th>Status</th>
               <th>Date</th>
             </tr>
           </thead>
-          <tbody id="recordsTable"></tbody>
+          <tbody id="recordsTable">
+            <tr><td colspan="5" class="small">No attendance recorded yet.</td></tr>
+          </tbody>
         </table>
       </div>
     </section>
 
-    <!-- Div B: Academic Analysis -->
     <section id="divB" class="tab-content">
+
       <h2>📊 Academic Analysis</h2>
-      <div class="analysis">
-        <p><strong>Overall Performance:</strong></p>
-        <ul>
-          <li>Average Attendance: <span id="avgAttendance">0%</span></li>
-          <li>Average Marks: <span id="avgMarks">75%</span></li>
-        </ul>
-        <canvas id="marksChart"></canvas>
-      </div>
+      
     </section>
 
-    <!-- Div C: Faculty Features -->
     <section id="divC" class="tab-content">
       <h2>🎓 Faculty Features</h2>
-      <div class="features">
-        <button onclick="alert('Upload Notes feature coming soon!')">📂 Upload Notes</button>
-        <button onclick="alert('Announcement feature coming soon!')">📢 Announcements</button>
-        <button onclick="alert('Assignment Upload feature coming soon!')">📝 Upload Assignment</button>
-      </div>
+      <button onclick="alert('Coming Soon')">📢 Announcements</button>
     </section>
   </main>
 
@@ -79,21 +121,20 @@
     <p>&copy; 2025 Faculty Portal - All Rights Reserved</p>
   </footer>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Firebase SDK -->
   <script type="module" src="assets/js/fy.js"></script>
-  <script>
-    // Tab switching functionality
-    const buttons = document.querySelectorAll(".tab-btn");
-    const contents = document.querySelectorAll(".tab-content");
 
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        buttons.forEach(btn => btn.classList.remove("active"));
-        contents.forEach(content => content.classList.remove("active"));
-        button.classList.add("active");
-        document.getElementById(button.getAttribute("data-tab")).classList.add("active");
+  <script>
+    // Automatic highlight of active tab
+    const buttons = document.querySelectorAll(".tab-btn");
+    const sections = document.querySelectorAll(".tab-content");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        sections.forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
       });
     });
   </script>

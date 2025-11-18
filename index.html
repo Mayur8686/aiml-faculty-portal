@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+
+  <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="VE63NA9en6mLyCVab0VDs";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+  
   <!-- Top bar -->
   <div class="bg-dark text-white py-1 small">
     <div class="container d-flex justify-content-between">
@@ -30,10 +35,10 @@
       <nav>
         <ul class="nav">
           <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
           <li class="nav-item"><a href="faculty.html" class="nav-link">Faculty</a></li>
           <li class="nav-item"><a href="studentlogin.html" class="nav-link">Students Center</a></li>
-          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a>
         </ul>
       </nav>
     </div>
@@ -53,7 +58,7 @@
         <img src="assets/img/hero2.png" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h5></h5>
-          <p>Projects, Workshops, Hackathons</p>
+          
         </div>
       </div>
     </div>
@@ -70,54 +75,133 @@
     <marquee behavior="scroll" direction="left" id="notices-marquee">Loading latest notices...</marquee>
   </div>
 
-  <!-- Content Sections -->
-  <div class="container my-5">
-    <h3 class="mb-4">Recent Projects</h3>
-    <div class="row" id="projects-section"></div>
+<!-- About Section -->
+<!-- About + Vision & Mission Section Combined -->
+<!-- About Our Department Section (Updated to Match the Screenshot Style) -->
+<section id="about" class="py-5">
+  <div class="container">
+
+    <!-- Title -->
+    <h2 class="text-center fw-bold mb-4" style="color:#7a0c2e;">About Our Department</h2>
+    <div class="underline mx-auto mb-5" style="width:120px; height:4px; background:linear-gradient(to right, #7a0c2e, #e7b10a);"></div>
+
+    <!-- Mission & Vision Cards Row -->
+    <div class="row g-4">
+
+      <!-- Mission Card -->
+      <div class="col-md-6">
+        <div class="p-4 shadow-sm rounded-4 pop-card" style="background:white; border-top:6px solid; border-image:linear-gradient(to right, #7a0c2e, #e7b10a) 1;">
+          <div class="d-flex align-items-start gap-3">
+            <i class="bi bi-bullseye" style="font-size:2rem; color:#7a0c2e;"></i>
+            <div>
+              <h4 class="fw-bold" style="color:#7a0c2e;">Our Mission</h4>
+              <p class="section-text">
+                To develop Computer Professionals by imparting computer engineering knowledge with professional ethics.
+                To provide service to the communities to which we belong at local and national levels, combined with a deep
+                awareness of our ethical responsibilities to our profession and to society.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vision Card -->
+      <div class="col-md-6">
+        <div class="p-4 shadow-sm rounded-4 pop-card" style="background:white; border-top:6px solid; border-image:linear-gradient(to right, #7a0c2e, #e7b10a) 1;">
+          <div class="d-flex align-items-start gap-3">
+            <i class="bi bi-eye" style="font-size:2rem; color:#7a0c2e;"></i>
+            <div>
+              <h4 class="fw-bold" style="color:#7a0c2e;">Our Vision</h4>
+              <p class="section-text">
+                To develop engineers well versed with Critical Theory and Practicals (problem solving ability) and
+                sensitive to National and Global challenges from an Inter-disciplinary perspective. To create industry-ready,
+                socially and ethically strong professionals.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
+
+
+<!-- Department Overview Section (Same Style) -->
+<section id="dept-overview" class="py-5">
+  <div class="container">
+
+    
+    <!-- Overview Card -->
+    <div class="p-4 shadow-sm rounded-4 pop-card" style="background:white; border-top:6px solid; border-image:linear-gradient(to right, #7a0c2e, #e7b10a) 1;">
+          <h2 class="text-center fw-bold mb-4" style="color:#7a0c2e;">Department Overview</h2>
+    <div class="underline mx-auto mb-5" style="width:120px; height:4px; background:linear-gradient(to right, #7a0c2e, #e7b10a);"></div>
+
+      <div class="d-flex align-items-start gap-3">
+        
+        <i class="bi bi-info-circle" style="font-size:2rem; color:#7a0c2e;"></i>
+        
+        <div>
+          <p class="section-text">
+            The Artificial Intelligence and Machine Learning (AIML) Department at PCET’s Pimpri Chinchwad University
+            aims to nurture innovation and technical excellence. Our department bridges academic learning and
+            real-world applications through advanced AI-driven research, projects, and collaborations with industry experts.
+          </p>
+          <p class="section-text mb-0">
+            With a focus on interdisciplinary learning, we empower students to build intelligent systems that
+            transform the world — from automation and data science to responsible AI innovation.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
 
   <!-- Footer -->
 <footer class="bg-dark text-white py-4 mt-5">
   <div class="container">
     <div class="row text-center text-md-start">
       
-      <!-- Contact Info -->
-      <div class="col-md-6 mb-3">
-        <h5>Contact</h5>
-        <p class="mb-1">PCET’s Pimpri Chinchwad University</p>
-        <p class="mb-1">Established under Govt. of Maharashtra Act No. V of 2024</p>
-        
-        <!-- Phone with icon -->
-        <p class="mb-1">
-          <i class="bi bi-telephone-fill me-2"></i>
-          <a href="tel:+919046909003" class="text-white text-decoration-none">+91-9046909003</a> /
-          <a href="tel:+918381814141" class="text-white text-decoration-none">+91-8381814141</a>
-        </p>
-        
-        <!-- Email with icon -->
-        <p class="mb-1">
-          <i class="bi bi-envelope-fill me-2"></i>
-          <a href="mailto:info@pcu.edu.in" class="text-white text-decoration-none">info@pcu.edu.in</a>
-        </p>
-      </div>
+      <!-- Contact Info Section -->
+<div id="contact" class="row mt-4">
+  <div class="col-md-6 mb-3">
+    <h5>Contact</h5>
+    <p class="mb-1">PCET’s Pimpri Chinchwad University</p>
+    <p class="mb-1">Established under Govt. of Maharashtra Act No. V of 2024</p>
+    
+    <!-- Phone with icon -->
+    <p class="mb-1">
+      <i class="bi bi-telephone-fill me-2"></i>
+      <a href="tel:+919046909003" class="text-white text-decoration-none">+91-9046909003</a> /
+      <a href="tel:+918381814141" class="text-white text-decoration-none">+91-8381814141</a>
+    </p>
 
-      <!-- Address -->
-      <div class="col-md-6 mb-3">
-        <h5>Address</h5>
-        <p class="mb-1">
-          <i class="bi bi-geo-alt-fill me-2"></i>
-          <a href="https://www.google.com/maps?q=PCET+Pimpri+Chinchwad+University+Pune" 
-             target="_blank" 
-             class="text-white text-decoration-none">
-            Gut No. 44, 46, 48, 49 and 50,<br>
-            Sate, Maval (PMRDA),<br>
-            Dist. Pune-412106,<br>
-            Maharashtra, India
-          </a>
-        </p>
-      </div>
-    </div>
+    <!-- Email with icon -->
+    <p class="mb-1">
+      <i class="bi bi-envelope-fill me-2"></i>
+      <a href="mailto:info@pcu.edu.in" class="text-white text-decoration-none">info@pcu.edu.in</a>
+    </p>
+  </div>
 
+  <!-- Address -->
+  <div class="col-md-6 mb-3">
+    <h5>Address</h5>
+    <p class="mb-1">
+      <i class="bi bi-geo-alt-fill me-2"></i>
+      <a href="https://www.google.com/maps?q=PCET+Pimpri+Chinchwad+University+Pune" 
+         target="_blank" 
+         class="text-white text-decoration-none">
+        Gut No. 44, 46, 48, 49 and 50,<br>
+        Sate, Maval (PMRDA),<br>
+        Dist. Pune-412106,<br>
+        Maharashtra, India
+      </a>
+    </p>
+  </div>
+</div>
     <!-- Bottom line -->
     <div class="text-center pt-3 border-top border-secondary">
       <small>&copy; 2025 PCU AIML Department. All Rights Reserved.</small>
