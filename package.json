@@ -1,0 +1,25 @@
+{
+  "name": "aiml-faculty-portal",
+  "version": "1.0.0",
+  "description": "CEP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mayur8686/aiml-faculty-portal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mayur8686/aiml-faculty-portal/issues"
+  },
+  "homepage": "https://github.com/Mayur8686/aiml-faculty-portal#readme",
+  "dependencies": {
+    "firebase": "^9.23.0",
+    "firebase-admin": "^13.6.0"
+  }
+}

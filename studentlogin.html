@@ -1,54 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- studentlogin.html -->
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Student Login</title>
-  <link rel="stylesheet" href="assets/css/studentlogin.css">
+  <style>
+    body{font-family:Inter,system-ui,Arial; background:#eaf6ff; display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{width:420px;background:#fff;padding:28px;border-radius:14px;box-shadow:0 10px 30px rgba(2,6,23,0.08)}
+    h2{margin:0 0 14px;color:#2b2b8f}
+    input{width:100%;padding:12px;border-radius:8px;border:1px solid #e6eef7;margin-bottom:12px;box-sizing:border-box}
+    .btn{width:100%;padding:12px;border-radius:8px;border:none;background:#5b45ff;color:#fff;font-weight:600;cursor:pointer}
+    .muted{font-size:13px;color:#6b7280;margin-top:8px;text-align:center}
+    .error{color:#b91c1c;margin-top:10px;text-align:center}
+    .helper{display:flex;justify-content:space-between;margin-top:10px;font-size:13px}
+  </style>
 </head>
 <body>
-  <div class="login-card">
-    <img src="https://th.bing.com/th/id/OIP.Y--lq46X4cVb7nFob31SaQHaDl?pid=ImgDetMain" alt="College Logo">
-    <h2>Student <span>Sign-In</span></h2>
+  <div class="card" role="region" aria-label="Student login">
+    <h2>Student Sign-In</h2>
 
-    <div class="input-group">
-      <input type="text" id="username" placeholder="Username">
+    <input id="username" placeholder="Roll (e.g. 46) or email" aria-label="username or email">
+    <input id="password" type="password" placeholder="Password" aria-label="password">
+    <button id="signinBtn" class="btn">SIGN IN</button>
+
+    <div id="status" class="error" role="alert" aria-live="polite"></div>
+    <div class="helper">
+      <a href="#" id="help">Help</a>
+      <a href="#" id="forgot">Forgot Password?</a>
     </div>
-
-    <div class="input-group">
-      <input type="password" id="password" placeholder="Password">
-      <span class="toggle-password" onclick="togglePassword()">👁</span>
-    </div>
-
-    <button class="login-btn" onclick="login()">SIGN IN</button>
-
-    <div class="links">
-      <a href="#">Help</a>
-      <a href="#">Forgot Password?</a>
-    </div>
+    <div class="muted">Example test account: <strong>46@student.com</strong> / <strong>46</strong></div>
   </div>
 
-  <script>
-    function togglePassword() {
-      const passwordInput = document.getElementById('password');
-      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+  <script type="module">
+    // ---------- Paste your Firebase config here ----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyCmr6ohetgRU38w1UPf5WlviPc869MqrKE",
+      authDomain: "aiml-portal.firebaseapp.com",
+      projectId: "aiml-portal",
+      storageBucket: "aiml-portal.firebasestorage.app",
+      messagingSenderId: "976880421269",
+      appId: "1:976880421269:web:33d16bf4147259032b4e9c",
+      measurementId: "G-M8X3YJF1GK"
+    };
+
+    // ---------- Firebase modular imports ----------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // DOM
+    const usernameEl = document.getElementById('username');
+    const passwordEl = document.getElementById('password');
+    const signInBtn = document.getElementById('signinBtn');
+    const statusEl = document.getElementById('status');
+
+    // helper: convert roll -> email (if user typed only digits or no '@')
+    function normalizeUsernameToEmail(input) {
+      const v = (input || '').trim();
+      if (!v) return '';
+      // if it contains @ assume it's email
+      if (v.includes('@')) return v;
+      // else treat as roll/PRN and map to email domain
+      return `${v}@student.com`;
     }
 
-    function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+    async function signIn() {
+      statusEl.textContent = '';
+      const rawUser = usernameEl.value.trim();
+      const password = passwordEl.value;
 
-      // Example hardcoded login (you can change this)
-      const validUsername = "student";
-      const validPassword = "1234";
+      if (!rawUser || !password) {
+        statusEl.textContent = 'Please enter username and password.';
+        return;
+      }
 
-      if (username === validUsername && password === validPassword) {
-        // Redirect to dashboard
-        window.location.href = "dashstudent.html";
-      } else {
-        alert("❌ Invalid Username or Password");
+      const email = normalizeUsernameToEmail(rawUser);
+
+      try {
+        // attempt sign in
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        // success -> redirect to student dashboard
+        console.log('Signed in:', cred.user.uid);
+        statusEl.style.color = 'green';
+        statusEl.textContent = 'Login successful — redirecting...';
+        // small delay so user sees success
+        setTimeout(() => { window.location.href = 'dashstudent.html'; }, 700);
+      } catch (err) {
+        console.error('signIn error', err);
+        // friendly messages for common errors
+        let msg = err.message || String(err);
+        if (err.code === 'auth/user-not-found') msg = 'No account found for this user.';
+        else if (err.code === 'auth/wrong-password') msg = 'Incorrect password.';
+        else if (err.code === 'auth/invalid-email') msg = 'Invalid email format.';
+        else if (err.code === 'auth/operation-not-allowed') {
+          msg = 'Sign-in method not enabled in Firebase console. Please enable Email/Password in Authentication → Sign-in method.';
+        }
+        statusEl.style.color = '#b91c1c';
+        statusEl.textContent = 'Login failed. Firebase: ' + msg;
       }
     }
+
+    signInBtn.addEventListener('click', signIn);
+
+    // allow Enter key
+    [usernameEl, passwordEl].forEach(el => el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') signIn();
+    }));
   </script>
 </body>
 </html>

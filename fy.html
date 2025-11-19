@@ -10,8 +10,8 @@
     body{margin:0;background:#f7fafc;color:#0f172a;line-height:1.4}
     header{background:#0b5cff;color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
     header h1{margin:0;font-size:18px}
-    nav{display:flex;gap:8px}
-    .tab-btn{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer}
+    nav{display:flex;gap:8px;align-items:center}
+    .tab-btn{background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;text-decoration:none}
     .tab-btn.active{background:#fff;color:#0b5cff}
     main{max-width:980px;margin:18px auto;padding:0 16px}
     section{display:none;background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-bottom:16px}
@@ -26,26 +26,32 @@
     th,td{padding:8px;border-bottom:1px solid #eef2f7;text-align:left}
     footer{max-width:980px;margin:8px auto;padding:10px 16px;color:#6b7280;font-size:13px}
     .small{font-size:13px;color:#374151}
+    /* DSA viewer styles inside divB */
+    .dsawrapper { margin-top:12px; background:#fbfdff; padding:12px; border-radius:8px; border:1px solid #eef6ff; }
+    .muted{ color:#6b7280; font-size:13px; }
+    pre{ background:#fff; padding:10px; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,0.04); white-space:pre-wrap; min-height:80px; }
+    .hidden{ display:none; }
   </style>
 </head>
 <body>
   <header>
     <h1>Faculty Dashboard - FY</h1>
     <nav>
-      <button class="tab-btn active" data-tab="divA">Attendance</button>
-      <a href="academic_analysis.html" class="tab-btn" style="text-decoration:none;">
-  Academic Analysis
-  </a>
+      <!-- Home button (goes to index.html) -->
+      <a href="dashfaculty.html" class="tab-btn" title="Home">Home</a>
 
+      <!-- Tab buttons -->
+      <button class="tab-btn active" data-tab="divA">Attendance</button>
+      <button class="tab-btn" data-tab="divB">Academic Analysis</button>
       <button class="tab-btn" data-tab="divC">Faculty Features</button>
     </nav>
   </header>
 
   <main>
+    <!-- Attendance tab (unchanged) -->
     <section id="divA" class="tab-content active" aria-labelledby="attendanceHeading">
       <h2 id="attendanceHeading">📋 Attendance Submission</h2>
 
-      <!-- ⭐ MANUAL DATE SELECTOR ADDED HERE -->
       <div style="margin-bottom:10px;">
         <label for="attendanceDate">Select Attendance Date:</label><br>
         <input id="attendanceDate" type="date" style="padding:6px;margin-top:4px;">
@@ -105,38 +111,307 @@
       </div>
     </section>
 
-    <section id="divB" class="tab-content">
-
+    <!-- Academic Analysis tab: now contains DSA viewer -->
+    <section id="divB" class="tab-content" aria-hidden="true">
       <h2>📊 Academic Analysis</h2>
-      
+
+      <p class="small">Below: DSA Attendance Viewer (class-by-date and per-student). DateKey only is shown.</p>
+
+      <div class="dsawrapper">
+        <h4>1) View class attendance for a date (DSA)</h4>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+          <label for="dsaDate" style="font-weight:600">Pick date:</label>
+          <input type="date" id="dsaDate" />
+          <button id="loadDateBtn" class="btn" disabled>Load DSA for Date</button>
+          <div style="flex:1"></div>
+          <div class="muted">Collection: <code>attendance/DSA/records</code></div>
+        </div>
+
+        <div id="dateSummary" class="muted small">Select a date and click "Load DSA for Date".</div>
+
+        <table id="dateTable" class="hidden" style="margin-top:10px">
+          <thead>
+            <tr><th>Sr</th><th>Roll / StudentId</th><th>Name</th><th>Status</th><th>DateKey</th></tr>
+          </thead>
+          <tbody id="dateBody"></tbody>
+        </table>
+
+        <hr style="margin:14px 0">
+
+        <h4>2) View student DSA history (Roll or studentId)</h4>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+          <input id="studentIdInput" type="text" placeholder="e.g. 46 or MLSB059" style="padding:8px;border-radius:6px;border:1px solid #e6eef7">
+          <button id="loadStudentBtn" class="btn" disabled>Load Student Records</button>
+          <button id="loadStudentTodayBtn" class="btn" disabled>Load Student Record for Selected Date</button>
+          <div style="flex:1"></div>
+          <div class="muted">You can pass roll number (46) or Firestore studentId / PRN</div>
+        </div>
+
+        <div id="studentSummary" class="muted small">Enter student id/roll and click "Load Student Records".</div>
+
+        <table id="studentTable" class="hidden" style="margin-top:10px">
+          <thead><tr><th>Sr</th><th>DateKey</th><th>DocId</th><th>Status</th></tr></thead>
+          <tbody id="studentBody"></tbody>
+        </table>
+
+        <hr style="margin:14px 0">
+        <div>
+          <h5>Quick debug output</h5>
+          <pre id="debug"></pre>
+        </div>
+      </div>
     </section>
 
     <section id="divC" class="tab-content">
-      <h2>🎓 Faculty Features</h2>
-      <button onclick="alert('Coming Soon')">📢 Announcements</button>
-    </section>
-  </main>
+  <h2>🎓 Faculty Features</h2>
+
+  <!-- Notes upload (open Drive folder directly) -->
+<div style="padding:12px;border-radius:8px;border:1px solid #eef6ff;background:#fbfdff">
+  <h4>📂 Upload Notes</h4>
+
+  <p class="small muted" style="margin-bottom:8px">
+    Click the button below to open the Google Drive folder and upload notes directly.
+  </p>
+
+  <a href="https://drive.google.com/drive/folders/1abc80zMh37LZh8t6s9ILuo17S1xefwdu"
+     target="_blank"
+     class="btn"
+     style="text-decoration:none;display:inline-block">
+    📤 Open Notes Drive Folder
+  </a>
+</div>
+
+
+    <!-- Announcement (broadcast) -->
+    <div style="padding:12px;border-radius:8px;border:1px solid #eef6ff;background:#fbfdff">
+      <h4>📢 Create Announcement</h4>
+      <input id="announceTitle" placeholder="Title" style="width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef7;margin-bottom:8px"/>
+      <textarea id="announceBody" placeholder="Write announcement..." style="width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef7" rows="4"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <button id="saveAnnouncementBtn" class="btn">Publish Announcement</button>
+        <div id="announceMsg" class="small muted"></div>
+      </div>
+    </div>
+
+    <!-- Notice (target specific students) -->
+    <div style="padding:12px;border-radius:8px;border:1px solid #eef6ff;background:#fbfdff">
+      <h4>📨 Create Notice (to selected students)</h4>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <input id="noticeTitle" placeholder="Notice title" style="padding:8px;border-radius:6px;border:1px solid #e6eef7;flex:1"/>
+        <button id="selectAllStudentsBtn" type="button" class="btn" style="padding:6px 10px">Select all</button>
+        <button id="clearAllStudentsBtn" type="button" class="btn" style="background:#6b7280;padding:6px 10px">Clear</button>
+      </div>
+
+      <textarea id="noticeBody" placeholder="Notice body..." rows="3" style="width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef7;margin-bottom:8px"></textarea>
+
+      <div style="max-height:220px;overflow:auto;padding:8px;border-radius:6px;border:1px dashed #e6eef9;background:#fff" id="noticeStudentList">
+        <!-- student checkboxes will be rendered here by JS -->
+        <p class="small muted">Loading students…</p>
+      </div>
+
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <button id="saveNoticeBtn" class="btn">Send Notice</button>
+        <div id="noticeMsg" class="small muted"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <footer>
     <p>&copy; 2025 Faculty Portal - All Rights Reserved</p>
   </footer>
 
+  <!-- Chart.js (still available) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Your fy.js (module, exposes fetchAttendance helpers) -->
   <script type="module" src="assets/js/fy.js"></script>
 
   <script>
-    // Automatic highlight of active tab
+    // Tab switching functionality
     const buttons = document.querySelectorAll(".tab-btn");
-    const sections = document.querySelectorAll(".tab-content");
+    const contents = document.querySelectorAll(".tab-content");
 
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        buttons.forEach(b => b.classList.remove("active"));
-        sections.forEach(s => s.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.add("active");
+    function showTab(tabId) {
+      buttons.forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tabId));
+      contents.forEach(c => c.classList.toggle("active", c.id === tabId));
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        // Home anchor has no data-tab so ignore it here
+        const tab = button.dataset.tab;
+        if (!tab) return;
+        showTab(tab);
       });
     });
+
+    // -----------------------
+    // DSA viewer logic (same as standalone viewer but scoped inside this page)
+    // -----------------------
+    const loadDateBtn = document.getElementById("loadDateBtn");
+    const dateInput = document.getElementById("dsaDate");
+    const dateSummary = document.getElementById("dateSummary");
+    const dateTable = document.getElementById("dateTable");
+    const dateBody = document.getElementById("dateBody");
+
+    const studentInput = document.getElementById("studentIdInput");
+    const loadStudentBtn = document.getElementById("loadStudentBtn");
+    const loadStudentTodayBtn = document.getElementById("loadStudentTodayBtn");
+    const studentSummary = document.getElementById("studentSummary");
+    const studentTable = document.getElementById("studentTable");
+    const studentBody = document.getElementById("studentBody");
+
+    const debugEl = document.getElementById("debug");
+    function debug(msg) {
+      debugEl.textContent = (new Date()).toLocaleTimeString() + " — " + msg + "\n" + debugEl.textContent;
+    }
+
+    // wait for fy.js helpers
+    async function waitForHelpers(timeout = 4000) {
+      const start = Date.now();
+      return new Promise((resolve, reject) => {
+        (function poll() {
+          if (window.fetchAttendanceByDate && window.fetchAttendanceForStudent && window.fetchAttendanceForStudentByDate) return resolve();
+          if (Date.now() - start > timeout) return reject(new Error("Attendance helpers not available"));
+          setTimeout(poll, 100);
+        })();
+      });
+    }
+
+    (async function initDSA() {
+      // auto-fill today's date
+      (function setToday() {
+        const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        dateInput.value = d.toISOString().slice(0,10);
+      })();
+
+      try {
+        await waitForHelpers();
+        debug("Attendance helpers ready.");
+        loadDateBtn.disabled = false;
+        loadStudentBtn.disabled = false;
+        loadStudentTodayBtn.disabled = false;
+      } catch (e) {
+        debug("Helpers not ready: " + e.message);
+        // allow user to try anyway after small wait
+        setTimeout(() => { loadDateBtn.disabled = false; loadStudentBtn.disabled = false; loadStudentTodayBtn.disabled = false; }, 3000);
+      }
+
+      // class-by-date
+      loadDateBtn.addEventListener("click", async () => {
+        const dateKey = dateInput.value;
+        if (!dateKey) { alert("Pick a date"); return; }
+        if (!window.fetchAttendanceByDate) { alert("Helpers not available yet"); return; }
+        dateSummary.textContent = "Loading…";
+        dateBody.innerHTML = "";
+        dateTable.classList.add('hidden');
+        try {
+          const rows = await window.fetchAttendanceByDate("DSA", dateKey);
+          if (!rows || rows.length === 0) {
+            dateSummary.textContent = `No records found for ${dateKey}.`;
+            debug(`Loaded 0 records for DSA ${dateKey}`);
+            return;
+          }
+          rows.sort((a,b) => {
+            const ra = (a.data && (a.data.roll || a.data.studentId)) || "";
+            const rb = (b.data && (b.data.roll || b.data.studentId)) || "";
+            return String(ra).localeCompare(String(rb), undefined, { numeric:true });
+          });
+          let sr=0, present=0;
+          rows.forEach(r => {
+            sr++;
+            const id = r.data.roll || r.data.studentId || "(no-id)";
+            const name = r.data.name || "";
+            const status = r.data.status || "";
+            if ((status||"").toLowerCase() === "present") present++;
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${sr}</td><td>${id}</td><td>${name}</td><td>${status}</td><td>${r.data.dateKey || ""}</td>`;
+            dateBody.appendChild(tr);
+          });
+          const percent = Math.round((present/rows.length)*100);
+          dateSummary.textContent = `${rows.length} records — ${present} present — ${percent}% present on ${dateKey}`;
+          dateTable.classList.remove('hidden');
+          debug(`Loaded ${rows.length} records for DSA ${dateKey}`);
+        } catch (err) {
+          console.error(err);
+          dateSummary.textContent = "Error loading records (see console)";
+          debug("Error: " + (err.message || err));
+        }
+      });
+
+      // student history
+      loadStudentBtn.addEventListener("click", async () => {
+        const sid = studentInput.value.trim();
+        if (!sid) return alert("Enter roll/studentId/prn.");
+        if (!window.fetchAttendanceForStudent) return alert("Helpers missing.");
+        studentSummary.textContent = "Loading…";
+        studentBody.innerHTML = "";
+        studentTable.classList.add('hidden');
+        try {
+          const rows = await window.fetchAttendanceForStudent("DSA", sid);
+          if (!rows || rows.length === 0) {
+            studentSummary.textContent = `No DSA records found for ${sid}.`;
+            debug(`Loaded 0 records for student ${sid}`);
+            return;
+          }
+          rows.sort((a,b) => {
+            const ad = a.data.dateKey || "";
+            const bd = b.data.dateKey || "";
+            return bd.localeCompare(ad);
+          });
+          let sr=0;
+          rows.forEach(r => {
+            sr++;
+            const dk = r.data.dateKey || "";
+            const id = r.id || "";
+            const status = r.data.status || "";
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${sr}</td><td>${dk}</td><td>${id}</td><td>${status}</td>`;
+            studentBody.appendChild(tr);
+          });
+          studentSummary.textContent = `${rows.length} records for ${sid}`;
+          studentTable.classList.remove('hidden');
+          debug(`Loaded ${rows.length} records for student ${sid}`);
+        } catch (err) {
+          console.error(err);
+          studentSummary.textContent = "Error loading student records.";
+          debug("Error: " + (err.message || err));
+        }
+      });
+
+      // single student on a selected date
+      loadStudentTodayBtn.addEventListener("click", async () => {
+        const sid = studentInput.value.trim();
+        const dateKey = dateInput.value;
+        if (!sid) return alert("Enter student id.");
+        if (!dateKey) return alert("Pick a date first.");
+        if (!window.fetchAttendanceForStudentByDate) return alert("Helpers missing.");
+        try {
+          const rec = await window.fetchAttendanceForStudentByDate("DSA", sid, dateKey);
+          if (!rec) {
+            studentSummary.textContent = `No DSA record for ${sid} on ${dateKey}.`;
+            studentTable.classList.add('hidden');
+            debug(`No record for ${sid} on ${dateKey}`);
+            return;
+          }
+          studentBody.innerHTML = "";
+          const tr = document.createElement("tr");
+          const dk = rec.data.dateKey || dateKey;
+          const id = rec.id || "";
+          const status = rec.data.status || "";
+          tr.innerHTML = `<td>1</td><td>${dk}</td><td>${id}</td><td>${status}</td>`;
+          studentBody.appendChild(tr);
+          studentSummary.textContent = `Record found for ${sid} on ${dateKey}`;
+          studentTable.classList.remove('hidden');
+          debug(`Fetched single record ${id} for ${sid} ${dateKey}`);
+        } catch (err) {
+          console.error(err);
+          debug("Error: " + (err.message || err));
+        }
+      });
+
+    })();
   </script>
 </body>
 </html>

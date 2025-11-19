@@ -1,52 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Login</title>
-  <link rel="stylesheet" href="assets/css/login.css">
-  
-</head>
+<!doctype html>
+<html>
 <body>
-  <div class="login-card">
-    <img src="https://th.bing.com/th/id/OIP.Y--lq46X4cVb7nFob31SaQHaDl?pid=ImgDetMain" alt="College Logo">
-    <h2>Faculty <span>Sign-In</span></h2>
+  <h3>Login</h3>
+  <form id="loginForm">
+    <input id="email" type="email" placeholder="email">
+    <input id="password" type="password" placeholder="password">
+    <button>Login</button>
+  </form>
+  <pre id="out"></pre>
 
-    <div class="input-group">
-      <input type="text" id="username" placeholder="Username">
-    </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-    <div class="input-group">
-      <input type="password" placeholder="Password" id="password">
-      <span class="toggle-password" onclick="togglePassword()">👁</span>
-    </div>
+    const firebaseConfig = { /* your config */ };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
 
-    <button class="login-btn" onclick="checkLogin()">SIGN IN</button>
-
-    <div class="links">
-      <a href="#">Help</a>
-      <a href="#">Forgot Password?</a>
-    </div>
-  </div>
-
-  <script>
-    function togglePassword() {
-      const passwordInput = document.getElementById('password');
-      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-    }
-
-    function checkLogin() {
-      const username = document.getElementById('username').value;
+    const form = document.getElementById('loginForm');
+    const out = document.getElementById('out');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-
-      if(username === 'mayur','sameer' && password === 'password') {
-        // Redirect to dashboard page
-        window.location.href = 'dashfaculty.html';
-    
-      } else {
-        alert('Invalid username or password!');
+      try {
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        out.textContent = 'Logged in: ' + userCred.user.uid;
+        // get claims:
+        const idTokenResult = await userCred.user.getIdTokenResult(true);
+        out.textContent += '\\nClaims: ' + JSON.stringify(idTokenResult.claims);
+        // redirect based on role
+        const role = idTokenResult.claims.role || 'student';
+        if (role === 'admin') window.location = 'admin.html';
+        else if (role === 'faculty') window.location = 'fy.html';
+        else window.location = 'student.html';
+      } catch (err) {
+        out.textContent = 'Login failed: ' + err.message;
       }
-    }
+    });
+
+    // option to sign out (if you want)
+    // await signOut(auth);
   </script>
 </body>
 </html>

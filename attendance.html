@@ -5,69 +5,85 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Attendance — DSA Date Viewer</title>
   <style>
-    body{ font-family: Inter, system-ui, Arial; background:#f7fbff; margin:0; color:#0b1726; padding-bottom:40px;}
-    .top{ background:#0b5cff; color:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between;}
+    :root{ --blue:#0b5cff; --muted:#6b7280; --bg:#f7fbff; --panel:#fff; --radius:8px; font-family:Inter, system-ui, Arial, sans-serif; }
+    body{ background:var(--bg); margin:0; color:#0b1726; padding-bottom:40px; }
+    .top{ background:var(--blue); color:#fff; padding:12px 16px; display:flex; align-items:center; gap:12px; }
+    .brand{ font-weight:700; font-size:16px; }
+    .top-actions{ margin-left:auto; display:flex; gap:8px; align-items:center; }
+    .btn{ padding:8px 12px; border-radius:8px; border:none; background:var(--blue); color:#fff; cursor:pointer; }
+    .btn.secondary{ background:#06b6d4; }
+    .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.15); color:#fff; }
     .container{ max-width:1000px; margin:20px auto; padding:16px; }
     .controls{ display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
-    input[type="date"], input[type="text"]{ padding:8px 10px; border-radius:8px; border:1px solid #e6eef7; }
-    button{ padding:8px 12px; border-radius:8px; border:none; background:#0b5cff; color:#fff; cursor:pointer;}
-    table{ width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 8px 24px rgba(2,6,23,0.06); }
-    th,td{ padding:8px 10px; border-bottom:1px solid #eef2f7; text-align:left; }
-    th{ background:#0b5cff; color:#fff; }
-    .muted{ color:#6b7280; font-size:13px; }
-    pre{ background:#fff; padding:10px; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,0.04); }
+    input[type="date"], input[type="text"]{ padding:8px 10px; border-radius:8px; border:1px solid #e6eef7; min-width:180px; }
+    table{ width:100%; border-collapse:collapse; background:var(--panel); border-radius:var(--radius); overflow:hidden; box-shadow:0 8px 24px rgba(2,6,23,0.06); margin-top:12px; }
+    th,td{ padding:8px 10px; border-bottom:1px solid #eef2f7; text-align:left; font-size:14px; }
+    th{ background:var(--blue); color:#fff; }
+    .muted{ color:var(--muted); font-size:13px; }
+    pre{ background:var(--panel); padding:10px; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,0.04); white-space:pre-wrap; min-height:80px; }
+    label{ font-size:13px; color:#374151; font-weight:600; margin-right:6px; }
+    .note{ font-size:13px; color:var(--muted); }
+    .hidden{ display:none; }
   </style>
 </head>
 <body>
-  <div class="top">
-    <div style="font-weight:700">DSA Attendance Viewer</div>
-    <div class="muted">Use date or student id to fetch records</div>
+  <div class="top" role="banner">
+    <div class="brand">DSA Attendance Viewer</div>
+
+    <div class="top-actions" role="navigation" aria-label="Top actions">
+      <a href="index.html" class="btn ghost" title="Home">Home</a>
+      <button id="helpBtn" class="btn secondary" title="Help">Help</button>
+    </div>
   </div>
 
-  <div class="container">
+  <main class="container" role="main">
     <h3>1) View class attendance for a date (DSA)</h3>
-    <div class="controls">
+
+    <div class="controls" aria-label="Date controls">
       <label for="dsaDate">Pick date:</label>
-      <input type="date" id="dsaDate" />
-      <button id="loadDateBtn">Load DSA for Date</button>
+      <input type="date" id="dsaDate" aria-label="Attendance date" />
+      <button id="loadDateBtn" class="btn" disabled>Load DSA for Date</button>
       <div style="flex:1"></div>
       <div class="muted">Collection: <code>attendance/DSA/records</code></div>
     </div>
 
-    <div id="dateSummary" class="muted"></div>
-    <table id="dateTable" style="display:none;margin-top:12px">
-      <thead><tr><th>Sr</th><th>Roll/StudentId</th><th>Name</th><th>Status</th><th>Timestamp</th></tr></thead>
+    <div id="dateSummary" class="muted note">Select a date and click "Load DSA for Date".</div>
+    <table id="dateTable" class="hidden" aria-live="polite" aria-label="Class attendance for date">
+      <thead>
+        <tr><th>Sr</th><th>Roll / StudentId</th><th>Name</th><th>Status</th><th>DateKey</th></tr>
+      </thead>
       <tbody id="dateBody"></tbody>
     </table>
 
     <hr style="margin:20px 0">
 
     <h3>2) View student DSA history (Roll or studentId)</h3>
-    <div class="controls">
-      <input id="studentIdInput" type="text" placeholder="e.g. 46" />
-      <button id="loadStudentBtn">Load Student Records</button>
-      <button id="loadStudentTodayBtn">Load Student Record for Selected Date</button>
+
+    <div class="controls" aria-label="Student controls">
+      <input id="studentIdInput" type="text" placeholder="e.g. 46 or MLSB059" aria-label="Student id or roll" />
+      <button id="loadStudentBtn" class="btn" disabled>Load Student Records</button>
+      <button id="loadStudentTodayBtn" class="btn secondary" disabled>Load Student Record for Selected Date</button>
       <div style="flex:1"></div>
       <div class="muted">You can pass roll number (46) or Firestore studentId / PRN</div>
     </div>
 
-    <div id="studentSummary" class="muted"></div>
-    <table id="studentTable" style="display:none;margin-top:12px">
-      <thead><tr><th>Sr</th><th>DateKey</th><th>DocId</th><th>Status</th><th>Timestamp</th></tr></thead>
+    <div id="studentSummary" class="muted note">Enter student id/roll and click "Load Student Records".</div>
+    <table id="studentTable" class="hidden" aria-live="polite" aria-label="Student attendance history">
+      <thead><tr><th>Sr</th><th>DateKey</th><th>DocId</th><th>Status</th></tr></thead>
       <tbody id="studentBody"></tbody>
     </table>
 
     <hr style="margin:22px 0">
 
     <h3>Quick debug output</h3>
-    <pre id="debug"></pre>
-  </div>
+    <pre id="debug" aria-live="polite"></pre>
+  </main>
 
   <!-- load the fy.js module (which attaches helpers to window) -->
   <script type="module" src="assets/js/fy.js"></script>
 
   <script>
-    // helpers are attached to window by assets/js/fy.js
+    // Elements
     const loadDateBtn = document.getElementById("loadDateBtn");
     const dateInput = document.getElementById("dsaDate");
     const dateSummary = document.getElementById("dateSummary");
@@ -82,128 +98,161 @@
     const studentBody = document.getElementById("studentBody");
 
     const debugEl = document.getElementById("debug");
-
     function debug(msg) {
       debugEl.textContent = (new Date()).toLocaleTimeString() + " — " + msg + "\n" + debugEl.textContent;
     }
 
-    loadDateBtn.addEventListener("click", async () => {
-      const dateKey = dateInput.value;
-      if (!dateKey) { alert("Pick a date"); return; }
-      if (!window.fetchAttendanceByDate) { alert("Helpers not available yet - wait for assets/js/fy.js to load"); return; }
-      dateSummary.textContent = "Loading…";
-      dateBody.innerHTML = "";
-      dateTable.style.display = "none";
-      try {
-        const rows = await window.fetchAttendanceByDate("DSA", dateKey);
-        if (!rows || rows.length === 0) {
-          dateSummary.textContent = `No records found for ${dateKey}.`;
-          return;
-        }
-        // sort by roll/studentId
-        rows.sort((a,b) => {
-          const ra = (a.data && (a.data.roll || a.data.studentId)) || "";
-          const rb = (b.data && (b.data.roll || b.data.studentId)) || "";
-          return String(ra).localeCompare(String(rb), undefined, { numeric:true });
-        });
-        let sr = 0, present = 0;
-        rows.forEach(r => {
-          sr++;
-          const roll = r.data.roll || r.data.studentId || "(no-id)";
-          const name = r.data.name || "";
-          const status = r.data.status || "";
-          const ts = (r.data.timestamp && typeof r.data.timestamp.toDate === "function") ? r.data.timestamp.toDate().toLocaleString() : (r.data.timestamp || "");
-          if ((status||"").toLowerCase() === "present") present++;
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${sr}</td><td>${roll}</td><td>${name}</td><td>${status}</td><td>${ts}</td>`;
-          dateBody.appendChild(tr);
-        });
-        const percent = Math.round((present/rows.length)*100);
-        dateSummary.textContent = `${rows.length} records — ${present} present — ${percent}% present on ${dateKey}`;
-        dateTable.style.display = "";
-        debug(`Loaded ${rows.length} records for DSA ${dateKey}`);
-      } catch (e) {
-        console.error(e);
-        dateSummary.textContent = "Error loading records (see console)";
-        debug("Error: " + e.message);
-      }
-    });
+    // Wait for helpers from fy.js
+    async function waitForHelpers(timeout = 4000) {
+      const start = Date.now();
+      return new Promise((resolve, reject) => {
+        (function poll() {
+          if (window.fetchAttendanceByDate && window.fetchAttendanceForStudent && window.fetchAttendanceForStudentByDate) return resolve();
+          if (Date.now() - start > timeout) return reject(new Error("Attendance helpers not available"));
+          setTimeout(poll, 100);
+        })();
+      });
+    }
 
-    loadStudentBtn.addEventListener("click", async () => {
-      const sid = studentInput.value.trim();
-      if (!sid) return alert("Enter roll/studentId/prn.");
-      if (!window.fetchAttendanceForStudent) return alert("Helpers missing.");
-      studentSummary.textContent = "Loading…";
-      studentBody.innerHTML = "";
-      studentTable.style.display = "none";
-      try {
-        const rows = await window.fetchAttendanceForStudent("DSA", sid);
-        if (!rows || rows.length === 0) {
-          studentSummary.textContent = `No DSA records found for ${sid}.`;
-          return;
-        }
-        // sort by dateKey desc
-        rows.sort((a,b) => {
-          const ad = a.data.dateKey || "";
-          const bd = b.data.dateKey || "";
-          return bd.localeCompare(ad);
-        });
-        let sr = 0;
-        rows.forEach(r => {
-          sr++;
-          const dk = r.data.dateKey || "";
-          const id = r.id || "";
-          const status = r.data.status || "";
-          const ts = (r.data.timestamp && typeof r.data.timestamp.toDate === "function") ? r.data.timestamp.toDate().toLocaleString() : (r.data.timestamp || "");
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${sr}</td><td>${dk}</td><td>${id}</td><td>${status}</td><td>${ts}</td>`;
-          studentBody.appendChild(tr);
-        });
-        studentSummary.textContent = `${rows.length} records for ${sid}`;
-        studentTable.style.display = "";
-        debug(`Loaded ${rows.length} records for student ${sid}`);
-      } catch (e) {
-        console.error(e);
-        studentSummary.textContent = "Error loading student records.";
-        debug("Error: " + e.message);
-      }
-    });
+    (async function init() {
+      // set today's date by default
+      (function setToday() {
+        const d = new Date();
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        dateInput.value = d.toISOString().slice(0,10);
+      })();
 
-    loadStudentTodayBtn.addEventListener("click", async () => {
-      const sid = studentInput.value.trim();
-      const dateKey = dateInput.value;
-      if (!sid) return alert("Enter student id.");
-      if (!dateKey) return alert("Pick a date first.");
-      if (!window.fetchAttendanceForStudentByDate) return alert("Helpers missing.");
       try {
-        const rec = await window.fetchAttendanceForStudentByDate("DSA", sid, dateKey);
-        if (!rec) {
-          studentSummary.textContent = `No DSA record for ${sid} on ${dateKey}.`;
-          studentTable.style.display = "none";
-          debug(`No record for ${sid} on ${dateKey}`);
-          return;
+        await waitForHelpers();
+        debug("Attendance helpers ready.");
+        // enable buttons now that helpers exist
+        loadDateBtn.disabled = false;
+        loadStudentBtn.disabled = false;
+        loadStudentTodayBtn.disabled = false;
+      } catch (e) {
+        debug("Helpers not ready: " + e.message);
+        // still allow user to try after a short wait
+        setTimeout(() => { loadDateBtn.disabled = false; loadStudentBtn.disabled = false; loadStudentTodayBtn.disabled = false; }, 3000);
+      }
+
+      // Load class attendance for selected date
+      loadDateBtn.addEventListener("click", async () => {
+        const dateKey = dateInput.value;
+        if (!dateKey) { alert("Pick a date"); return; }
+        if (!window.fetchAttendanceByDate) { alert("Helpers not available yet"); return; }
+        dateSummary.textContent = "Loading…";
+        dateBody.innerHTML = "";
+        dateTable.classList.add('hidden');
+        try {
+          const rows = await window.fetchAttendanceByDate("DSA", dateKey);
+          if (!rows || rows.length === 0) {
+            dateSummary.textContent = `No records found for ${dateKey}.`;
+            debug(`Loaded 0 records for DSA ${dateKey}`);
+            return;
+          }
+          // sort by roll/studentId
+          rows.sort((a,b) => {
+            const ra = (a.data && (a.data.roll || a.data.studentId)) || "";
+            const rb = (b.data && (b.data.roll || b.data.studentId)) || "";
+            return String(ra).localeCompare(String(rb), undefined, { numeric:true });
+          });
+          let sr = 0, present = 0;
+          rows.forEach(r => {
+            sr++;
+            const id = r.data.roll || r.data.studentId || "(no-id)";
+            const name = r.data.name || "";
+            const status = r.data.status || "";
+            if ((status||"").toLowerCase() === "present") present++;
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${sr}</td><td>${id}</td><td>${name}</td><td>${status}</td><td>${r.data.dateKey || ""}</td>`;
+            dateBody.appendChild(tr);
+          });
+          const percent = Math.round((present/rows.length)*100);
+          dateSummary.textContent = `${rows.length} records — ${present} present — ${percent}% present on ${dateKey}`;
+          dateTable.classList.remove('hidden');
+          debug(`Loaded ${rows.length} records for DSA ${dateKey}`);
+        } catch (e) {
+          console.error(e);
+          dateSummary.textContent = "Error loading records (see console)";
+          debug("Error: " + (e.message || e));
         }
-        // show single-row table
+      });
+
+      // Load all records for a student
+      loadStudentBtn.addEventListener("click", async () => {
+        const sid = studentInput.value.trim();
+        if (!sid) return alert("Enter roll/studentId/prn.");
+        if (!window.fetchAttendanceForStudent) return alert("Helpers missing.");
+        studentSummary.textContent = "Loading…";
         studentBody.innerHTML = "";
-        const tr = document.createElement("tr");
-        const dk = rec.data.dateKey || dateKey;
-        const id = rec.id || "";
-        const status = rec.data.status || "";
-        tr.innerHTML = `<td>1</td><td>${dk}</td><td>${id}</td><td>${status}</td><td>${ts}</td>`;
-        studentBody.appendChild(tr);
-        studentSummary.textContent = `Record found for ${sid} on ${dateKey}`;
-        studentTable.style.display = "";
-        debug(`Fetched single record ${id} for ${sid} ${dateKey}`);
-      } catch (e) {
-        console.error(e);
-        debug("Error: " + e.message);
-      }
-    });
+        studentTable.classList.add('hidden');
+        try {
+          const rows = await window.fetchAttendanceForStudent("DSA", sid);
+          if (!rows || rows.length === 0) {
+            studentSummary.textContent = `No DSA records found for ${sid}.`;
+            debug(`Loaded 0 records for student ${sid}`);
+            return;
+          }
+          rows.sort((a,b) => {
+            const ad = a.data.dateKey || "";
+            const bd = b.data.dateKey || "";
+            return bd.localeCompare(ad);
+          });
+          let sr = 0;
+          rows.forEach(r => {
+            sr++;
+            const dk = r.data.dateKey || "";
+            const id = r.id || "";
+            const status = r.data.status || "";
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${sr}</td><td>${dk}</td><td>${id}</td><td>${status}</td>`;
+            studentBody.appendChild(tr);
+          });
+          studentSummary.textContent = `${rows.length} records for ${sid}`;
+          studentTable.classList.remove('hidden');
+          debug(`Loaded ${rows.length} records for student ${sid}`);
+        } catch (e) {
+          console.error(e);
+          studentSummary.textContent = "Error loading student records.";
+          debug("Error: " + (e.message || e));
+        }
+      });
 
-    // optional: auto-fill date with today's date
-    (function setToday() {
-      const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-      document.getElementById("dsaDate").value = d.toISOString().slice(0,10);
+      // Load specific student's record for selected date
+      loadStudentTodayBtn.addEventListener("click", async () => {
+        const sid = studentInput.value.trim();
+        const dateKey = dateInput.value;
+        if (!sid) return alert("Enter student id.");
+        if (!dateKey) return alert("Pick a date first.");
+        if (!window.fetchAttendanceForStudentByDate) return alert("Helpers missing.");
+        try {
+          const rec = await window.fetchAttendanceForStudentByDate("DSA", sid, dateKey);
+          if (!rec) {
+            studentSummary.textContent = `No DSA record for ${sid} on ${dateKey}.`;
+            studentTable.classList.add('hidden');
+            debug(`No record for ${sid} on ${dateKey}`);
+            return;
+          }
+          studentBody.innerHTML = "";
+          const tr = document.createElement("tr");
+          const dk = rec.data.dateKey || dateKey;
+          const id = rec.id || "";
+          const status = rec.data.status || "";
+          tr.innerHTML = `<td>1</td><td>${dk}</td><td>${id}</td><td>${status}</td>`;
+          studentBody.appendChild(tr);
+          studentSummary.textContent = `Record found for ${sid} on ${dateKey}`;
+          studentTable.classList.remove('hidden');
+          debug(`Fetched single record ${id} for ${sid} ${dateKey}`);
+        } catch (e) {
+          console.error(e);
+          debug("Error: " + (e.message || e));
+        }
+      });
+
+      // help button
+      document.getElementById('helpBtn').addEventListener('click', () => {
+        alert('Enter a date to view class attendance for DSA, or enter a student roll/ID to view their history. DateKey only is shown (no timestamp).');
+      });
     })();
   </script>
 </body>

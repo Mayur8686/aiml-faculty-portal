@@ -1,5 +1,5 @@
 // assets/js/fy.js
-// Subject-aware attendance script with manual-date option and fetch helpers.
+// Subject-aware attendance script (date-only) with fetch helpers.
 // IMPORTANT: load this as module (type="module") in your HTML.
 
 // ------------- Firebase config -------------
@@ -21,7 +21,6 @@ import {
   doc,
   getDoc,
   setDoc,
-  serverTimestamp,
   onSnapshot,
   query,
   where,
@@ -41,7 +40,7 @@ const selectAllBtn = document.getElementById("selectAllBtn");
 const clearAllBtn = document.getElementById("clearAllBtn");
 const submitBtn = document.getElementById("submitAttendanceBtn");
 const courseSelectEl = document.getElementById("courseSelect");
-const attendanceDateEl = document.getElementById("attendanceDate"); // NEW: optional date picker
+const attendanceDateEl = document.getElementById("attendanceDate"); // optional date picker
 
 let srNo = 0;
 const studentMap = new Map(); // studentId -> { roll, name, prn, division }
@@ -72,11 +71,10 @@ function getSelectedSubject() {
   } catch (e) {}
   return "DSA";
 }
-// NEW: get dateKey from optional input; fallback to today
+// get dateKey from optional input; fallback to today
 function getSelectedDateKey() {
   try {
     if (attendanceDateEl && attendanceDateEl.value) {
-      // validate format YYYY-MM-DD
       const v = attendanceDateEl.value.trim();
       if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
     }
@@ -154,7 +152,7 @@ function subscribeStudents() {
   );
 }
 
-/* -------------------- submit attendance (subject+date aware) -------------------- */
+/* -------------------- submit attendance (subject+date aware, date-only) -------------------- */
 async function submitAttendanceToFirestore(finalList) {
   if (!Array.isArray(finalList) || finalList.length === 0) {
     alert("No attendance to submit.");
@@ -170,6 +168,7 @@ async function submitAttendanceToFirestore(finalList) {
   const writes = finalList.map((s) => {
     const baseId = s.studentId || s.roll || Math.random().toString(36).slice(2, 9);
     const docId = `${dateKey}_${baseId}`;
+    // date-only payload (no timestamps)
     const payload = {
       studentId: s.studentId || "",
       roll: safeString(s.roll) || safeString(studentMap.get(s.studentId)?.roll || ""),
@@ -178,8 +177,7 @@ async function submitAttendanceToFirestore(finalList) {
       division: safeString(s.division) || safeString(studentMap.get(s.studentId)?.division || ""),
       status: safeString(s.status),
       dateKey,
-      subject,
-      timestamp: serverTimestamp()
+      subject
     };
     return setDoc(doc(collection(db, ...targetCollPath), docId), payload);
   });
@@ -216,14 +214,11 @@ function subscribeAttendanceForSelectedDate() {
     q,
     (snapshot) => {
       const docs = snapshot.docs.map((d) => ({ id: d.id, data: d.data() }));
+      // sort by roll/studentId if possible
       docs.sort((a, b) => {
-        const ta = a.data.timestamp && typeof a.data.timestamp.toMillis === "function"
-          ? a.data.timestamp.toMillis()
-          : (a.data.timestamp ? new Date(a.data.timestamp).getTime() : 0);
-        const tb = b.data.timestamp && typeof b.data.timestamp.toMillis === "function"
-          ? b.data.timestamp.toMillis()
-          : (b.data.timestamp ? new Date(b.data.timestamp).getTime() : 0);
-        return tb - ta;
+        const ra = (a.data && (a.data.roll || a.data.studentId)) || "";
+        const rb = (b.data && (b.data.roll || b.data.studentId)) || "";
+        return String(ra).localeCompare(String(rb), undefined, { numeric: true });
       });
       renderAttendanceDocs(docs);
     },
@@ -237,7 +232,7 @@ function subscribeAttendanceForSelectedDate() {
   console.log(`[fy.js] Subscribed to attendance for subject=${subject} date=${dateKey}`);
 }
 
-/* -------------------- render attendance docs -------------------- */
+/* -------------------- render attendance docs (date only) -------------------- */
 function renderAttendanceDocs(docs) {
   if (!recordsTable) return;
   recordsTable.innerHTML = "";
@@ -260,9 +255,22 @@ function renderAttendanceDocs(docs) {
 
     const nameLabel = safeString(data.name) || (data.studentId && studentMap.has(data.studentId) ? studentMap.get(data.studentId).name : "");
     const statusLabel = safeString(data.status);
+
+    // Date label — prefer dateKey only (YYYY-MM-DD -> localized date)
     let dateLabel = "-";
-    if (data.timestamp && typeof data.timestamp.toDate === "function") dateLabel = data.timestamp.toDate().toLocaleString();
-    else if (data.timestamp) { try { dateLabel = new Date(data.timestamp).toLocaleString(); } catch (e) {} }
+    if (data.dateKey) {
+      try {
+        const parts = String(data.dateKey).split("-");
+        if (parts.length === 3) {
+          const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+          dateLabel = d.toLocaleDateString();
+        } else {
+          dateLabel = data.dateKey;
+        }
+      } catch (e) {
+        dateLabel = data.dateKey;
+      }
+    }
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -352,7 +360,6 @@ function init() {
   // if attendanceDate input exists, resubscribe on change
   if (attendanceDateEl) {
     attendanceDateEl.addEventListener("change", () => {
-      // validate date format quickly
       const v = attendanceDateEl.value;
       if (v && !/^\d{4}-\d{2}-\d{2}$/.test(v)) {
         alert("Date must be YYYY-MM-DD");
@@ -437,4 +444,4 @@ window.fetchAttendanceByDate = fetchAttendanceByDate;
 window.fetchAttendanceForStudent = fetchAttendanceForStudent;
 window.fetchAttendanceForStudentByDate = fetchAttendanceForStudentByDate;
 
-console.log('[fy.js] fetch helpers attached to window (date-aware).');
+console.log('[fy.js] fetch helpers attached to window (date-only).');
