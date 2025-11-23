@@ -94,3 +94,93 @@ footer a:hover {
   font-size: 1rem;      /* adjust this value as needed */
   line-height: 1.6;
 }
+/* ====== Additional Mobile Responsive Fixes ====== */
+@media (max-width: 768px) {
+  /* Header and Navigation */
+  header .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  header .d-flex {
+    margin-bottom: 15px;
+    justify-content: center;
+  }
+  
+  header nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  header nav .nav-item {
+    margin: 5px 0;
+  }
+  
+  /* Hero Carousel */
+  .carousel-caption h5 {
+    font-size: 1.5rem;
+  }
+  
+  .carousel-caption p {
+    font-size: 1rem;
+  }
+  
+  /* Stats Section */
+  #stats .counter {
+    font-size: 1.75rem;
+  }
+  
+  /* Recruiters Section */
+  #recruiters .col-6 {
+    margin-bottom: 20px;
+  }
+  
+  /* Footer */
+  footer .row {
+    text-align: center;
+  }
+  
+  footer .col-md-6 {
+    margin-bottom: 25px;
+  }
+  
+  /* Card hover effects - reduce on mobile for better performance */
+  .pop-card:hover {
+    transform: scale(1.01);
+  }
+  
+  /* Ensure proper spacing */
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+  /* Further adjustments for very small screens */
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .carousel-caption h5 {
+    font-size: 1.25rem;
+  }
+  
+  /* Make navigation items more tappable */
+  .nav-link {
+    padding: 8px 12px;
+    display: block;
+  }
+  
+  /* Adjust card padding */
+  .pop-card {
+    padding: 15px !important;
+  }
+  
+  /* Marquee text adjustment */
+  #notices-marquee {
+    font-size: 0.9rem;
+  }
+}
