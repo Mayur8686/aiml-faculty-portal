@@ -47,7 +47,8 @@ body {
 /* Card Grid */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  height: 480px;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
   gap: 20px;
 }
 
