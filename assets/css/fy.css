@@ -1,134 +1,120 @@
-/* assets/css/fy.css - simple clean styles for Faculty Dashboard */
+/* ---------- Desktop polish + responsive center ---------- */
 
-/* Typography + layout */
-:root {
-  --brand: #0b5cff;
-  --bg: #f7fafc;
-  --card: #ffffff;
-  --muted: #6b7280;
-  --accent: #eef7ff;
-  --danger: #ffe6e6;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* Ensure base stays fluid */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
 }
 
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: #071233;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* header */
+/* Header: full width, content centered inside a max-width container */
 header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center inner container */
+  padding: 14px 0;
   background: linear-gradient(90deg, var(--brand), #0a6be6);
-  color: white;
-  padding: 16px 20px;
+}
+
+/* Inner header container to center title + nav and limit width */
+.header-inner {
+  width: 100%;
+  max-width: 1200px; /* desktop content width */
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-header h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: 0.2px; }
-nav { display: flex; gap: 8px; }
-
-/* tab buttons */
-.tab-btn {
-  background: transparent;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.18);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.tab-btn.active { background: white; color: var(--brand); }
-
-/* main area */
-main {
-  max-width: 980px;
-  margin: 20px auto;
-  padding: 0 16px;
+  box-sizing: border-box;
+  gap: 12px;
 }
 
-/* sections */
-.tab-content {
-  display: none;
-  background: var(--card);
-  padding: 18px;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
-  margin-bottom: 18px;
-}
-.tab-content.active { display: block; }
-
-h2 { margin: 0 0 12px 0; font-size: 18px; }
-
-/* form */
-form > div { margin-bottom: 12px; }
-label { display: inline-block; font-weight: 600; margin-bottom: 6px; }
-select, input[type="text"], button, textarea {
-  font-size: 14px;
-  padding: 8px 10px;
-  border-radius: 8px;
-}
-
-/* student list box */
-#studentList {
-  max-height: 260px;
-  overflow: auto;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px dashed #e6eef9;
-  background: #fbfdff;
-}
-
-/* individual checkbox label */
-#studentList label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 8px;
-  border-radius: 6px;
-}
-#studentList label:hover { background: #f1f6ff; }
-
-/* select-all row */
-#studentList > div:first-child {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #eef4ff;
-}
-
-/* submit button */
-button[type="submit"] {
-  background: var(--brand);
-  color: #fff;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
+/* Title stays left, nav right */
+.header-inner h1 {
+  margin: 0;
+  font-size: 20px;
   font-weight: 700;
-  cursor: pointer;
+  color: white;
 }
-button[type="submit"]:hover { opacity: 0.95; }
 
-/* records table */
-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #eef2f7; }
-th { font-weight: 700; background: #fbfdff; }
+/* Nav on desktop - align right and keep buttons tidy */
+nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: nowrap; /* prefer single row on desktop */
+  overflow: visible;
+  max-width: 70%; /* prevent nav from pushing title off */
+  justify-content: flex-end;
+}
 
-/* footer */
-footer { max-width: 980px; margin: 8px auto; padding: 10px 16px; color: var(--muted); font-size: 13px; }
+/* Tab button sizing for larger screens */
+.tab-btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1;
+  min-width: 110px;
+}
 
-/* debug banner created by JS */
-#fyDebugMessage { margin-bottom: 12px; }
+/* Main content centered with larger max-width on desktop */
+main {
+  width: 100%;
+  max-width: 1200px; /* match header-inner */
+  margin: 26px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
 
-/* small screens */
+/* Increase card padding & radius on desktop */
+.tab-content {
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(2,6,23,0.07);
+}
+
+/* Student list: wider height on desktop */
+#studentList {
+  max-height: 420px;
+  padding: 14px;
+}
+
+/* Table tweaks for wide screens */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+th, td {
+  padding: 12px 10px;
+  word-break: break-word;
+}
+
+/* Buttons on desktop: make them inline-block and spaced */
+button[type="submit"], .tab-btn {
+  display: inline-block;
+}
+
+/* Utility: make sure the inner container doesn't get too narrow */
+.container, .wrapper, .main-content {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Desktop-only media adjustments */
+@media (min-width: 1200px) {
+  .tab-btn { min-width: 130px; padding: 12px 16px; }
+  header h1 { font-size: 22px; }
+  main { padding: 0 32px; }
+  .tab-content { padding: 26px; }
+}
+
+/* Keep mobile rules intact (from earlier) */
+@media (max-width: 900px) {
+  main { padding: 0 14px; }
+}
 @media (max-width: 600px) {
-  header { padding: 12px; }
-  main { padding: 0 12px; }
+  header { padding: 10px 12px; align-items: flex-start; }
+  .header-inner { padding: 0 12px; }
+  nav { flex-wrap: wrap; overflow-x: auto; }
+  main { margin: 12px auto; padding: 0 12px; }
   #studentList { max-height: 200px; }
 }
