@@ -81,19 +81,74 @@ header nav .nav-link:hover {
 }
 
 
-/* ====== Footer ====== */
-footer h5 {
-  font-weight: 600;
-  margin-bottom: 10px;
+.footer {
+  background: #1f1f1f;
+  color: white;
+  padding: 40px 20px 20px;
+  font-family: Arial, sans-serif;
 }
 
-footer a:hover {
-  color: #0d6efd;
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
-.section-text {
-  font-size: 1rem;      /* adjust this value as needed */
-  line-height: 1.6;
+
+.footer-section {
+  width: 30%;
+  min-width: 260px;
+  margin-bottom: 20px;
 }
+
+.footer-section h3 {
+  margin-bottom: 10px;
+  color: #ffcccb;
+  font-size: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 6px;
+}
+
+/* Center Address Section */
+.footer-center {
+  text-align: center;
+}
+
+/* Social links styling */
+.social-links {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.social-links a {
+  display: block;
+  margin: 6px 0;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.social-links a i {
+  margin-right: 8px;
+  color: #ff4757;
+}
+
+.social-links a:hover {
+  color: #ffa502;
+  transform: translateX(5px);
+}
+
+/* Footer bottom line */
+.footer-copy {
+  margin-top: 25px;
+  text-align: center;
+  border-top: 1px solid #333;
+  padding-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+}
+
 /* ====== Additional Mobile Responsive Fixes ====== */
 @media (max-width: 768px) {
   /* Header and Navigation */
@@ -183,12 +238,12 @@ footer a:hover {
   #notices-marquee {
     font-size: 0.9rem;
   }
-} 
+}
 /* Scroll-to-top Button */
 #scrollTopBtn {
   position: fixed;
   bottom: 25px;
-  right: 25px;
+  left: 25px;
   width: 45px;
   height: 45px;
   background: #8b0d2f; /* dark red */
@@ -216,4 +271,5 @@ footer a:hover {
   background: #aa123c;
   transform: translateY(-3px);
 }
+
 
